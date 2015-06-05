@@ -9,9 +9,7 @@ import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by gabriel on 6/5/15.
- */
+
 public class RESTFull {
 
     //change "192.168.0.14" to the ip of your machine
