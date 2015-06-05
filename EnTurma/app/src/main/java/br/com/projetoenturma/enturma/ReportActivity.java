@@ -17,6 +17,10 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+
+import rest.request.RESTFull;
 
 
 public class ReportActivity extends ActionBarActivity {
@@ -92,6 +96,15 @@ public class ReportActivity extends ActionBarActivity {
 
     public void requestData(){
 
+        Map<String,String> params = new HashMap();
+        params.put("year", "2008");
+        params.put("state", "AC");
+        params.put("grade", "1° ano");
+        params.put("test_type", "Total");
+        params.put("public_type", "Total");
+        params.put("local", "Total");
+
+        RESTFull full = new RESTFull(params);
 
         String requestFromUser = "/report/request_report.json?utf8=%E2%9C%93&year=" +
                 yearSpinner.getSelectedItem().toString() +
@@ -128,7 +141,5 @@ public class ReportActivity extends ActionBarActivity {
                 Log.d("omg android", statusCode + " " + throwable.getMessage());
             }
         });
-
-
     }
 }
