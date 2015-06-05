@@ -2,18 +2,28 @@ package br.com.projetoenturma.enturma;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.loopj.android.http.*;
+import org.apache.http.Header;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 
 public class ReportActivity extends ActionBarActivity {
 
     Spinner yearSpinner, stateSpinner, gradeSpinner, networkSpinner, localSpinner;
     Button sendButton;
+    static final String URLserver = "http://localhost:3000/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +38,7 @@ public class ReportActivity extends ActionBarActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                System.out.println(yearSpinner.getSelectedItem().toString());
+                requestData();
             }
         });
     }
@@ -64,7 +74,7 @@ public class ReportActivity extends ActionBarActivity {
 
         String[] itemYear = new String[]{"2008", "2009", "2010","2011","2012","2013"};
         String[] itemState = new String[]{"AC", "DF", "SP","MG","RJ","SC"};
-        String[] itemGrade = new String[]{"1", "2", "3","4","5","6","7","8","9"};
+        String[] itemGrade = new String[]{"1º ano", "2º ano", "3","4","5","6","7","8","9"};
         String[] itemNetwork = new String[]{"Total","Pública", "Privada"};
         String[] itemLocal = new String[]{"Total", "Urbana", "Rural"};
         ArrayAdapter<String> adapterYear = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, itemYear);
@@ -78,5 +88,47 @@ public class ReportActivity extends ActionBarActivity {
         gradeSpinner.setAdapter(adapterGrade);
         networkSpinner.setAdapter(adapterNetwork);
         localSpinner.setAdapter(adapterLocal);
+    }
+
+    public void requestData(){
+
+
+        String requestFromUser = "/report/request_report.json?utf8=%E2%9C%93&year=" +
+                yearSpinner.getSelectedItem().toString() +
+                "&state=" +
+                yearSpinner.getSelectedItem().toString()+
+                "&grade=" +
+                gradeSpinner.getSelectedItem().toString()+
+                "&test_type=" +
+                networkSpinner.getSelectedItem().toString()+
+                "&local=" +
+                localSpinner.getSelectedItem().toString();
+
+
+        try{
+            requestFromUser = URLEncoder.encode(requestFromUser, "UTF-8");
+        }catch (UnsupportedEncodingException e){
+
+            e.printStackTrace();
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get("http://127.0.0.1:3000/report/request_report.json?utf8=%E2%9C%93&year=2008&state=AC&grade=1%C2%B0+ano&test_type=Total&public_type=Total&local=Total", new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_LONG).show();
+                System.out.println(response.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getApplicationContext(), "Error: " + statusCode + " " + throwable.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d("omg android", statusCode + " " + throwable.getMessage());
+            }
+        });
+
+
     }
 }
