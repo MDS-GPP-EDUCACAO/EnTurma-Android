@@ -69,5 +69,11 @@
             android:layout_marginTop="16dp"/>
     </LinearLayout>
 
+    <Button
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:id="@+id/send_report"
+        android:text="Gerar" />
 
 </LinearLayout>

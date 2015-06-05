@@ -4,20 +4,33 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 
 public class ReportActivity extends ActionBarActivity {
 
     Spinner yearSpinner, stateSpinner, gradeSpinner, networkSpinner, localSpinner;
+    Button sendButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
-
+        setupActions();
         setupInitialValue();
+    }
+
+    public void setupActions() {
+        sendButton = (Button) findViewById(R.id.send_report);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                System.out.println(yearSpinner.getSelectedItem().toString());
+            }
+        });
     }
 
     @Override
