@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -26,7 +27,7 @@ import rest.request.RESTFull;
 
 public class ReportActivity extends ActionBarActivity {
 
-    Spinner yearSpinner, stateSpinner, gradeSpinner, networkSpinner, localSpinner;
+    Spinner yearSpinner, stateSpinner, gradeSpinner, networkSpinner,publicTypeSpinner, localSpinner;
     Button sendButton;
     ProgressDialog activityIdicator;
 
@@ -34,8 +35,16 @@ public class ReportActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
+
+        yearSpinner = (Spinner) findViewById(R.id.year);
+        stateSpinner = (Spinner) findViewById(R.id.state);
+        gradeSpinner = (Spinner) findViewById(R.id.grade);
+        networkSpinner = (Spinner) findViewById(R.id.network);
+        publicTypeSpinner = (Spinner) findViewById(R.id.public_type);
+        localSpinner = (Spinner) findViewById(R.id.local);
+        sendButton = (Button) findViewById(R.id.send_report);
+
         setupActions();
-        setupInitialValue();
 
         activityIdicator = new ProgressDialog(this);
         activityIdicator.setMessage("Procurando pelo relatório");
@@ -64,49 +73,38 @@ public class ReportActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setupActions() {
-        sendButton = (Button) findViewById(R.id.send_report);
-
+    private void setupActions() {
         sendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 requestData();
             }
         });
+
+        networkSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (networkSpinner.getSelectedItem().toString().equals("Publica")){
+                    publicTypeSpinner.setVisibility(View.VISIBLE);
+                }else {
+                    publicTypeSpinner.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
-    public void setupInitialValue(){
-        yearSpinner = (Spinner) findViewById(R.id.year);
-        stateSpinner = (Spinner) findViewById(R.id.state);
-        gradeSpinner = (Spinner) findViewById(R.id.grade);
-        networkSpinner = (Spinner) findViewById(R.id.network);
-        localSpinner = (Spinner) findViewById(R.id.local);
-
-        String[] itemYear = new String[]{"2008", "2009", "2010","2011","2012","2013"};
-        String[] itemState = new String[]{"AC", "DF", "SP","MG","RJ","SC"};
-        String[] itemGrade = new String[]{"1° ano", "2° ano", "3° ano","4° ano","5° ano","6° ano","7° ano","8° ano","9° ano"};
-        String[] itemNetwork = new String[]{"Total","Pública", "Privada"};
-        String[] itemLocal = new String[]{"Total", "Urbana", "Rural"};
-        ArrayAdapter<String> adapterYear = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, itemYear);
-        ArrayAdapter<String> adapterState = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, itemState);
-        ArrayAdapter<String> adapterGrade = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, itemGrade);
-        ArrayAdapter<String> adapterNetwork = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, itemNetwork);
-        ArrayAdapter<String> adapterLocal = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, itemLocal);
-
-        yearSpinner.setAdapter(adapterYear);
-        stateSpinner.setAdapter(adapterState);
-        gradeSpinner.setAdapter(adapterGrade);
-        networkSpinner.setAdapter(adapterNetwork);
-        localSpinner.setAdapter(adapterLocal);
-    }
-
-    public void requestData(){
+    private void requestData(){
 
         Map<String,String> params = new HashMap();
         params.put("year", yearSpinner.getSelectedItem().toString());
         params.put("state", stateSpinner.getSelectedItem().toString());
         params.put("grade", gradeSpinner.getSelectedItem().toString());
         params.put("test_type", networkSpinner.getSelectedItem().toString());
-        params.put("public_type", "Total");
+        params.put("public_type", publicTypeSpinner.getSelectedItem().toString());
         params.put("local", localSpinner.getSelectedItem().toString());
 
         RESTFull full = new RESTFull(params);
