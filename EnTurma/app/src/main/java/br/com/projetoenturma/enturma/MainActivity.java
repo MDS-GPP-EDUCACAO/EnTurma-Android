@@ -1,6 +1,7 @@
 package br.com.projetoenturma.enturma;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -55,12 +56,23 @@ public class MainActivity extends ActionBarActivity
         switch (number) {
             case 1:
                 mTitle = getString(R.string.about);
+
                 break;
             case 2:
                 mTitle = getString(R.string.report);
+                Intent moveToReport = new Intent(this, ReportActivity.class);
+                startActivity(moveToReport);
+
                 break;
             case 3:
                 mTitle = getString(R.string.compare);
+                break;
+            case 4:
+                mTitle = getString(R.string.ranking);
+                break;
+
+            case 5:
+                mTitle = getString(R.string.contact);
                 break;
         }
     }
