@@ -10,7 +10,7 @@ import android.widget.Spinner;
 
 public class ReportActivity extends ActionBarActivity {
 
-    Spinner yearSpinner, stateSpinner;
+    Spinner yearSpinner, stateSpinner, gradeSpinner, networkSpinner, localSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +45,25 @@ public class ReportActivity extends ActionBarActivity {
     public void setupInitialValue(){
         yearSpinner = (Spinner) findViewById(R.id.year);
         stateSpinner = (Spinner) findViewById(R.id.state);
+        gradeSpinner = (Spinner) findViewById(R.id.grade);
+        networkSpinner = (Spinner) findViewById(R.id.network);
+        localSpinner = (Spinner) findViewById(R.id.local);
 
         String[] itemYear = new String[]{"2008", "2009", "2010","2011","2012","2013"};
         String[] itemState = new String[]{"AC", "DF", "SP","MG","RJ","SC"};
-
+        String[] itemGrade = new String[]{"1", "2", "3","4","5","6","7","8","9"};
+        String[] itemNetwork = new String[]{"Total","Pública", "Privada"};
+        String[] itemLocal = new String[]{"Total", "Urbana", "Rural"};
         ArrayAdapter<String> adapterYear = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, itemYear);
         ArrayAdapter<String> adapterState = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, itemState);
+        ArrayAdapter<String> adapterGrade = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, itemGrade);
+        ArrayAdapter<String> adapterNetwork = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, itemNetwork);
+        ArrayAdapter<String> adapterLocal = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, itemLocal);
 
         yearSpinner.setAdapter(adapterYear);
         stateSpinner.setAdapter(adapterState);
+        gradeSpinner.setAdapter(adapterGrade);
+        networkSpinner.setAdapter(adapterNetwork);
+        localSpinner.setAdapter(adapterLocal);
     }
 }
