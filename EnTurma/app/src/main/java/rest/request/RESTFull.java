@@ -1,5 +1,8 @@
 package rest.request;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.net.URLEncoder;
@@ -36,8 +39,20 @@ public class RESTFull {
         return urlParams;
     }
 
-    public void requestReport(){
-        
+    public void requestReport(JsonHttpResponseHandler handler){
+        String requestUrl = URL_BASE + "report/request_report.json" + encodeParamsToUrlRequest();
+
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get(requestUrl, handler);
+    }
+
+    public  void requestCompareReport(JsonHttpResponseHandler handler){
+        String requestUrl = URL_BASE + "compare_reports/request_comparation.json" + encodeParamsToUrlRequest();
+
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get(requestUrl, handler);
     }
 
 }

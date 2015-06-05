@@ -27,7 +27,6 @@ public class ReportActivity extends ActionBarActivity {
 
     Spinner yearSpinner, stateSpinner, gradeSpinner, networkSpinner, localSpinner;
     Button sendButton;
-    static final String URLserver = "http://localhost:3000/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,29 +105,7 @@ public class ReportActivity extends ActionBarActivity {
 
         RESTFull full = new RESTFull(params);
 
-        String requestFromUser = "/report/request_report.json?utf8=%E2%9C%93&year=" +
-                yearSpinner.getSelectedItem().toString() +
-                "&state=" +
-                yearSpinner.getSelectedItem().toString()+
-                "&grade=" +
-                gradeSpinner.getSelectedItem().toString()+
-                "&test_type=" +
-                networkSpinner.getSelectedItem().toString()+
-                "&local=" +
-                localSpinner.getSelectedItem().toString();
-
-
-        try{
-            requestFromUser = URLEncoder.encode(requestFromUser, "UTF-8");
-        }catch (UnsupportedEncodingException e){
-
-            e.printStackTrace();
-            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://127.0.0.1:3000/report/request_report.json?utf8=%E2%9C%93&year=2008&state=AC&grade=1%C2%B0+ano&test_type=Total&public_type=Total&local=Total", new JsonHttpResponseHandler() {
+        full.requestReport(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_LONG).show();
