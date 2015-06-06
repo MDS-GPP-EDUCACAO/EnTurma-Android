@@ -4,18 +4,31 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import rest.request.RESTFull;
 
 public class CompareFragment extends Fragment {
 
 
-    Spinner firstYearSpinner, firstStateSpinner, firstGradeSpinner, firstNetworkSpinner,firstPublicTypeSpinner, firstLocalSpinner;
-    Spinner secondYearSpinner, secondStateSpinner, secondGradeSpinner, secondNetworkSpinner,secondPublicTypeSpinner, secondLocalSpinner;
+    Spinner firstYearSpinner, firstStateSpinner, firstNetworkSpinner,firstPublicTypeSpinner, firstLocalSpinner;
+    Spinner secondYearSpinner, secondStateSpinner, secondNetworkSpinner,secondPublicTypeSpinner, secondLocalSpinner;
+    Spinner gradeSpinner;
     Button requestButton;
     ProgressDialog activityIdicator;
 
@@ -60,17 +73,17 @@ public class CompareFragment extends Fragment {
         super.onStart();
         firstYearSpinner = (Spinner) getView().findViewById(R.id.first_year);
         firstStateSpinner = (Spinner) getView().findViewById(R.id.first_state);
-        firstGradeSpinner = (Spinner) getView().findViewById(R.id.first_grade);
         firstNetworkSpinner = (Spinner) getView().findViewById(R.id.first_network);
         firstPublicTypeSpinner = (Spinner) getView().findViewById(R.id.first_public_type);
         firstLocalSpinner = (Spinner) getView().findViewById(R.id.first_local);
 
         secondYearSpinner = (Spinner) getView().findViewById(R.id.second_year);
         secondStateSpinner = (Spinner) getView().findViewById(R.id.second_state);
-        secondGradeSpinner = (Spinner) getView().findViewById(R.id.second_grade);
         secondNetworkSpinner = (Spinner) getView().findViewById(R.id.second_network);
         secondPublicTypeSpinner = (Spinner) getView().findViewById(R.id.second_public_type);
         secondLocalSpinner = (Spinner) getView().findViewById(R.id.second_local);
+
+        gradeSpinner = (Spinner) getView().findViewById(R.id.grade);
 
 
         requestButton = (Button) getView().findViewById(R.id.send_report);
@@ -112,6 +125,38 @@ public class CompareFragment extends Fragment {
     }
 
     private void requestData(){
-        //request data ans plot graphs
+        Map<String,String> params = new HashMap();
+        params.put("first_year", firstYearSpinner.getSelectedItem().toString());
+        params.put("first_state", firstStateSpinner.getSelectedItem().toString());
+        params.put("first_test_type", firstNetworkSpinner.getSelectedItem().toString());
+        params.put("first_public_type", firstPublicTypeSpinner.getSelectedItem().toString());
+        params.put("first_local", firstLocalSpinner.getSelectedItem().toString());
+        params.put("second_year", secondYearSpinner.getSelectedItem().toString());
+        params.put("second_state", secondStateSpinner.getSelectedItem().toString());
+        params.put("second_test_type", secondNetworkSpinner.getSelectedItem().toString());
+        params.put("second_public_type", secondPublicTypeSpinner.getSelectedItem().toString());
+        params.put("second_local", secondLocalSpinner.getSelectedItem().toString());
+        params.put("grade", gradeSpinner.getSelectedItem().toString());
+
+        RESTFull full = new RESTFull(params);
+
+        activityIdicator.show();
+        full.requestCompareReport(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                activityIdicator.dismiss();
+                Toast.makeText(getActivity().getApplicationContext(), "Sucesso!", Toast.LENGTH_LONG).show();
+                //plot graph with response object
+                System.out.println(response.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                activityIdicator.dismiss();
+                Toast.makeText(getActivity().getApplicationContext(), "Erro: " + statusCode + " " + throwable.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d("omg android", statusCode + " " + throwable.getMessage());
+                //Deal with request error
+            }
+        });
     }
 }

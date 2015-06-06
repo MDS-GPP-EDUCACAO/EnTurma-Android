@@ -42,18 +42,6 @@
                     />
 
                 <Spinner
-                    android:id="@+id/first_grade"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:drawable/btn_dropdown"
-                    android:spinnerMode="dropdown"
-                    android:entries="@array/grades_array"
-                    android:prompt="@string/grade_prompt"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="16dp"/>
-
-                <Spinner
                     android:id="@+id/first_local"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -124,17 +112,6 @@
                     android:layout_marginTop="16dp"
                     android:layout_alignParentRight="true" />
 
-                <Spinner
-                    android:id="@+id/second_grade"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:drawable/btn_dropdown"
-                    android:spinnerMode="dropdown"
-                    android:entries="@array/grades_array"
-                    android:prompt="@string/grade_prompt"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="16dp"/>
 
                 <Spinner
                     android:id="@+id/second_local"
@@ -176,6 +153,19 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <Spinner
+            android:id="@+id/grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            android:entries="@array/grades_array"
+            android:prompt="@string/grade_prompt"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"/>
 
         <Button
             android:layout_width="140dp"

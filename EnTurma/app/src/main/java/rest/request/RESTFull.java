@@ -50,6 +50,8 @@ public class RESTFull {
 
         AsyncHttpClient client = new AsyncHttpClient();
 
+        System.out.println(requestUrl);
+
         client.get(requestUrl, handler);
     }
 
