@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.loopj.android.http.*;
 import org.apache.http.Header;
 import org.json.JSONObject;
@@ -103,6 +107,15 @@ public class ReportActivity extends ActionBarActivity {
                 networkSpinner.getSelectedItem().toString()+
                 "&local=" +
                 localSpinner.getSelectedItem().toString();
+
+        GraphView graph = (GraphView) findViewById(R.id.ideb_graph);
+        BarGraphSeries<DataPoint> series = new BarGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(2008, 0),
+                new DataPoint(2009, 5),
+                new DataPoint(2010, 0),
+                new DataPoint(2011, 2),
+        });
+        graph.addSeries(series);
 
 
         try{
