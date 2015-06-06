@@ -98,6 +98,10 @@
             android:visibility="gone">
 
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Ideb"/>
 
             <com.jjoe64.graphview.GraphView
                 android:layout_width="match_parent"
@@ -105,11 +109,21 @@
                 android:id="@+id/ideb_graph"
                 />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Evasão"/>
+
 
             <com.jjoe64.graphview.GraphView
                 android:layout_width="match_parent"
                 android:layout_height="200dip"
                 android:id="@+id/evasion_graph" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Rendimento"/>
 
 
             <com.jjoe64.graphview.GraphView
@@ -117,6 +131,10 @@
                 android:layout_height="200dip"
                 android:id="@+id/performance_graph" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Distorção"/>
 
 
             <com.jjoe64.graphview.GraphView
