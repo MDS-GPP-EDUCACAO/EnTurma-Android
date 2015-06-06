@@ -131,11 +131,11 @@ public class ReportFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
                 activityIdicator.dismiss();
                 Toast.makeText(getActivity().getApplicationContext(), "Erro: " + statusCode + " " + throwable.getMessage(), Toast.LENGTH_LONG).show();
                 Log.d("omg android", statusCode + " " + throwable.getMessage());
-                //Deal with request error
             }
         });
     }
