@@ -84,25 +84,49 @@
         android:text="Limpar"
         android:visibility="gone"/>
 
-    <LinearLayout
-        android:id="@+id/graphs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
 
-        <TextView
-            android:layout_width="20px"
-            android:text="Ideb"
-            android:layout_height="20px"
-            android:id="@+id/ideb_graph_name"
-            />
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <com.jjoe64.graphview.GraphView
-            android:layout_width="match_parent"
-            android:layout_height="200dip"
-            android:id="@+id/ideb_graph"
-            />
+        <LinearLayout
+            android:id="@+id/graphs"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
-    </LinearLayout>
+
+
+            <com.jjoe64.graphview.GraphView
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:id="@+id/ideb_graph"
+                />
+
+
+            <com.jjoe64.graphview.GraphView
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:id="@+id/evasion_graph" />
+
+
+            <com.jjoe64.graphview.GraphView
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:id="@+id/performance_graph" />
+
+
+
+            <com.jjoe64.graphview.GraphView
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:id="@+id/distortion_graph" />
+
+
+         </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

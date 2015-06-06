@@ -125,14 +125,44 @@ public class ReportActivity extends ActionBarActivity {
                 "&local=" +
                 localSpinner.getSelectedItem().toString();
 
-        GraphView graph = (GraphView) findViewById(R.id.ideb_graph);
-        BarGraphSeries<DataPoint> series = new BarGraphSeries<DataPoint>(new DataPoint[] {
+        GraphView idebGraph = (GraphView) findViewById(R.id.ideb_graph);
+        BarGraphSeries<DataPoint> idebSeries = new BarGraphSeries<DataPoint>(new DataPoint[] {
                 new DataPoint(2008, 0),
                 new DataPoint(2009, 5),
                 new DataPoint(2010, 0),
                 new DataPoint(2011, 2),
         });
-        graph.addSeries(series);
+        idebGraph.addSeries(idebSeries);
+
+        GraphView evasionGraph = (GraphView) findViewById(R.id.evasion_graph);
+        LineGraphSeries<DataPoint> evasionSeries = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(2008, 1),
+                new DataPoint(2009, 5),
+                new DataPoint(2010, 3),
+                new DataPoint(2011, 2),
+                new DataPoint(2012, 6)
+        });
+        evasionGraph.addSeries(evasionSeries);
+
+        GraphView performanceGraph = (GraphView) findViewById(R.id.performance_graph);
+        LineGraphSeries<DataPoint> performarceSeries = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(2008, 1),
+                new DataPoint(2009, 6),
+                new DataPoint(2010, 8),
+                new DataPoint(2011, 1),
+                new DataPoint(2012, 2)
+        });
+        performanceGraph.addSeries(performarceSeries);
+
+        GraphView distortionGraph = (GraphView) findViewById(R.id.distortion_graph);
+        LineGraphSeries<DataPoint> distortionSeries = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(2008, 8),
+                new DataPoint(2009, 3),
+                new DataPoint(2010, 4),
+                new DataPoint(2011, 7),
+                new DataPoint(2012, 2)
+        });
+        distortionGraph.addSeries(distortionSeries);
 
 
         try{
