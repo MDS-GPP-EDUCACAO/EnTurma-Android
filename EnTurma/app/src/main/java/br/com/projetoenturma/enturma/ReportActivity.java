@@ -6,8 +6,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,6 +33,7 @@ public class ReportActivity extends ActionBarActivity {
     Spinner yearSpinner, stateSpinner, gradeSpinner, networkSpinner, localSpinner;
     Button sendButton;
     static final String URLserver = "http://localhost:3000/";
+    private LinearLayout animatedLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,7 @@ public class ReportActivity extends ActionBarActivity {
         setContentView(R.layout.activity_report);
         setupActions();
         setupInitialValue();
+        animatedLayout = (LinearLayout) findViewById(R.id.graphs);
     }
 
     public void setupActions() {
@@ -43,6 +50,7 @@ public class ReportActivity extends ActionBarActivity {
 
             public void onClick(View v) {
                 requestData();
+                showGraphs();
             }
         });
     }
@@ -144,4 +152,26 @@ public class ReportActivity extends ActionBarActivity {
 
 
     }
+
+    public void showGraphs()
+    {
+        sendButton = (Button) findViewById(R.id.send_report);
+        if (animatedLayout.getVisibility() == View.GONE)
+        {
+            sendButton.setVisibility(View.VISIBLE);
+            animatedLayout.setVisibility(View.VISIBLE);
+
+        }
+    }
+
+    public void clear(View button)
+    {
+        if (animatedLayout.getVisibility() == View.VISIBLE)
+        {
+            animatedLayout.setVisibility(View.GONE);
+        }
+
+    }
+
+
 }

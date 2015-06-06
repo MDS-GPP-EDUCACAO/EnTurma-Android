@@ -74,6 +74,35 @@
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:id="@+id/send_report"
+        android:onClick="showGraphs"
         android:text="Gerar" />
+    <Button
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:id="@+id/clear"
+        android:text="Limpar"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/graphs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="20px"
+            android:text="Ideb"
+            android:layout_height="20px"
+            android:id="@+id/ideb_graph_name"
+            />
+
+        <com.jjoe64.graphview.GraphView
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:id="@+id/ideb_graph"
+            />
+
+    </LinearLayout>
 
 </LinearLayout>
