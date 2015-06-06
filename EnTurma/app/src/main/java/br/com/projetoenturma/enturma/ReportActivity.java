@@ -31,7 +31,7 @@ import java.net.URLEncoder;
 public class ReportActivity extends ActionBarActivity {
 
     Spinner yearSpinner, stateSpinner, gradeSpinner, networkSpinner, localSpinner;
-    Button sendButton;
+    Button sendButton, clearButton;
     static final String URLserver = "http://localhost:3000/";
     private LinearLayout animatedLayout;
 
@@ -46,11 +46,20 @@ public class ReportActivity extends ActionBarActivity {
 
     public void setupActions() {
         sendButton = (Button) findViewById(R.id.send_report);
+        clearButton = (Button) findViewById(R.id.clear);
+
+
         sendButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
                 requestData();
                 showGraphs();
+            }
+        });
+
+        clearButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                clearGraphs();
             }
         });
     }
@@ -158,17 +167,18 @@ public class ReportActivity extends ActionBarActivity {
         sendButton = (Button) findViewById(R.id.send_report);
         if (animatedLayout.getVisibility() == View.GONE)
         {
-            sendButton.setVisibility(View.VISIBLE);
+            clearButton.setVisibility(View.VISIBLE);
             animatedLayout.setVisibility(View.VISIBLE);
 
         }
     }
 
-    public void clear(View button)
+    public void clearGraphs()
     {
         if (animatedLayout.getVisibility() == View.VISIBLE)
         {
             animatedLayout.setVisibility(View.GONE);
+            clearButton.setVisibility(View.GONE);
         }
 
     }
