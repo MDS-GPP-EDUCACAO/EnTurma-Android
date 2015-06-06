@@ -1,7 +1,6 @@
 package br.com.projetoenturma.enturma;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -47,8 +46,30 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = null;
+
+        switch (position){
+            case 0:
+                fragment = PlaceholderFragment.newInstance(position + 1);
+                break;
+            case 1:
+                fragment = ReportFragment.newInstance(position + 1);
+                break;
+            case 2:
+                fragment = CompareFragment.newInstance(position + 1);
+                break;
+            case 3:
+                fragment = PlaceholderFragment.newInstance(position + 1);
+                break;
+            case 4:
+                fragment = PlaceholderFragment.newInstance(position + 1);
+                break;
+            default:
+                fragment = PlaceholderFragment.newInstance(position + 1);
+                break;
+        }
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, fragment)
                 .commit();
     }
 
@@ -56,13 +77,9 @@ public class MainActivity extends ActionBarActivity
         switch (number) {
             case 1:
                 mTitle = getString(R.string.about);
-
                 break;
             case 2:
                 mTitle = getString(R.string.report);
-                Intent moveToReport = new Intent(this, ReportActivity.class);
-                startActivity(moveToReport);
-
                 break;
             case 3:
                 mTitle = getString(R.string.compare);

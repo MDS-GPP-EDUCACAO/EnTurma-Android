@@ -1,76 +1,87 @@
 package br.com.projetoenturma.enturma;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.loopj.android.http.*;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
 import org.apache.http.Header;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
 import rest.request.RESTFull;
 
 
-public class ReportActivity extends ActionBarActivity {
+public class ReportFragment extends Fragment {
 
     Spinner yearSpinner, stateSpinner, gradeSpinner, networkSpinner,publicTypeSpinner, localSpinner;
     Button sendButton;
     ProgressDialog activityIdicator;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report);
 
-        yearSpinner = (Spinner) findViewById(R.id.year);
-        stateSpinner = (Spinner) findViewById(R.id.state);
-        gradeSpinner = (Spinner) findViewById(R.id.grade);
-        networkSpinner = (Spinner) findViewById(R.id.network);
-        publicTypeSpinner = (Spinner) findViewById(R.id.public_type);
-        localSpinner = (Spinner) findViewById(R.id.local);
-        sendButton = (Button) findViewById(R.id.send_report);
+    /**
+     * The fragment argument representing the section number for this
+     * fragment.
+     */
+    private static final String ARG_SECTION_NUMBER = "section_number";
+
+    /**
+     * Returns a new instance of this fragment for the given section
+     * number.
+     */
+    public static ReportFragment newInstance(int sectionNumber) {
+        ReportFragment fragment = new ReportFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public ReportFragment() {
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_report, container, false);
+        return rootView;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((MainActivity) activity).onSectionAttached(
+                getArguments().getInt(ARG_SECTION_NUMBER));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        yearSpinner = (Spinner) getView().findViewById(R.id.year);
+        stateSpinner = (Spinner) getView().findViewById(R.id.state);
+        gradeSpinner = (Spinner) getView().findViewById(R.id.grade);
+        networkSpinner = (Spinner) getView().findViewById(R.id.network);
+        publicTypeSpinner = (Spinner) getView().findViewById(R.id.public_type);
+        localSpinner = (Spinner) getView().findViewById(R.id.local);
+        sendButton = (Button) getView().findViewById(R.id.send_report);
 
         setupActions();
 
-        activityIdicator = new ProgressDialog(this);
+        activityIdicator = new ProgressDialog(getActivity());
         activityIdicator.setMessage("Procurando pelo relatório");
         activityIdicator.setCancelable(false);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_report, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void setupActions() {
@@ -83,9 +94,9 @@ public class ReportActivity extends ActionBarActivity {
         networkSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (networkSpinner.getSelectedItem().toString().equals("Publica")){
+                if (networkSpinner.getSelectedItem().toString().equals("Publica")) {
                     publicTypeSpinner.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     publicTypeSpinner.setVisibility(View.INVISIBLE);
                 }
             }
@@ -114,7 +125,7 @@ public class ReportActivity extends ActionBarActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 activityIdicator.dismiss();
-                Toast.makeText(getApplicationContext(), "Sucesso!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Sucesso!", Toast.LENGTH_LONG).show();
                 //plot graph with response object
                 System.out.println(response.toString());
             }
@@ -122,7 +133,7 @@ public class ReportActivity extends ActionBarActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 activityIdicator.dismiss();
-                Toast.makeText(getApplicationContext(), "Erro: " + statusCode + " " + throwable.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Erro: " + statusCode + " " + throwable.getMessage(), Toast.LENGTH_LONG).show();
                 Log.d("omg android", statusCode + " " + throwable.getMessage());
                 //Deal with request error
             }
