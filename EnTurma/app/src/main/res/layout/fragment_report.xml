@@ -112,6 +112,60 @@
                     android:id="@+id/send_report"
                     android:text="Gerar" />
 
+                <LinearLayout
+                    android:id="@+id/graphs"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Ideb"/>
+
+                    <com.jjoe64.graphview.GraphView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dip"
+                        android:id="@+id/ideb_graph"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Evasão"/>
+
+
+                    <com.jjoe64.graphview.GraphView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dip"
+                        android:id="@+id/evasion_graph" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Rendimento"/>
+
+
+                    <com.jjoe64.graphview.GraphView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dip"
+                        android:id="@+id/performance_graph" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Distorção"/>
+
+
+                    <com.jjoe64.graphview.GraphView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dip"
+                        android:id="@+id/distortion_graph" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </TableLayout>

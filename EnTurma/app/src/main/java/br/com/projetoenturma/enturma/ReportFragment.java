@@ -2,6 +2,7 @@ package br.com.projetoenturma.enturma;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,17 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.jjoe64.graphview.GraphView;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import graphs.PlotterManager;
 import rest.request.RESTFull;
 
 
@@ -77,6 +83,7 @@ public class ReportFragment extends Fragment {
         localSpinner = (Spinner) getView().findViewById(R.id.local);
         sendButton = (Button) getView().findViewById(R.id.send_report);
 
+
         setupActions();
 
         activityIdicator = new ProgressDialog(getActivity());
@@ -128,6 +135,7 @@ public class ReportFragment extends Fragment {
                 Toast.makeText(getActivity().getApplicationContext(), "Sucesso!", Toast.LENGTH_LONG).show();
                 //plot graph with response object
                 System.out.println(response.toString());
+                plotData(response);
             }
 
             @Override
@@ -138,5 +146,34 @@ public class ReportFragment extends Fragment {
                 Log.d("omg android", statusCode + " " + throwable.getMessage());
             }
         });
+    }
+
+    private void plotData(JSONObject data){
+        JSONObject rates = data.optJSONObject("rates");
+        JSONArray[] datas = new JSONArray[3];
+        int initialXYear = 0;
+        try {
+            if (rates.getString("status").equals("available")){
+                datas[0] = rates.getJSONArray("evasion");
+                datas[1] = rates.getJSONArray("performance");
+                datas[2] = rates.getJSONArray("distortion");
+                initialXYear = Integer.parseInt(data.getString("year"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        GraphView[] graphViews = new GraphView[]{
+                (GraphView) getView().findViewById(R.id.evasion_graph),
+                (GraphView) getView().findViewById(R.id.performance_graph),
+                (GraphView) getView().findViewById(R.id.distortion_graph)
+        };
+
+        PlotterManager manager = new PlotterManager(initialXYear,graphViews,datas);
+
+        if (manager.plotSimpleLineGraph()){
+            LinearLayout graphs = (LinearLayout) getView().findViewById(R.id.graphs);
+            graphs.setVisibility(View.VISIBLE);
+        }
     }
 }
