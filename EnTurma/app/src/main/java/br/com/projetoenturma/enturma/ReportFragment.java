@@ -244,57 +244,70 @@ public class ReportFragment extends Fragment {
         if (data != null) {
 
             graph.removeAllSeries();
-
-
-            JSONObject rates = data.optJSONObject("rates");
             JSONArray dataToPlot = new JSONArray();
-            int initialXYear = 0;
-            try {
-                if (rates.getString("status").equals("available")) {
 
-                    switch (graphOptionSelected) {
+            if (graphOptionSelected == 0){
+                JSONObject ideb = data.optJSONObject("ideb");
+                try {
+                    if (ideb.getString("status").equals("available")){
+                        dataToPlot = ideb.getJSONArray("ideb");
+                        graphDescription.setText(R.string.ideb_description);
 
-                        case 0:
-                            graphDescription.setText(R.string.ideb_description);
-                            break;
-                        case 1:
-                            dataToPlot = rates.getJSONArray("evasion");
-                            graphDescription.setText(R.string.evasion_description);
+                        PlotterManager manager = new PlotterManager( graph, dataToPlot);
 
-                            break;
-                        case 2:
-                            dataToPlot = rates.getJSONArray("performance");
-                            graphDescription.setText(R.string.performance_description);
-
-                            break;
-                        case 3:
-                            dataToPlot = rates.getJSONArray("distortion");
-                            graphDescription.setText(R.string.distortion_description);
-
-                            break;
-                        default:
-                            break;
-
+                        if (manager.plotSimpleBarGraph(ideb.getJSONArray("ideb_years"))) {
+                            graph.setVisibility(View.VISIBLE);
+                            tabsStrip.setVisibility(View.VISIBLE);
+                            graphDescription.setVisibility(View.VISIBLE);
+                            focusOnView();
+                        }
                     }
-
-                    initialXYear = Integer.parseInt(data.getString("year"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
+            }else{
+                JSONObject rates = data.optJSONObject("rates");
+                int initialXYear = 0;
+                try {
+                    if(rates.getString("status").equals("available")){
+                        try {
+                            switch (graphOptionSelected) {
+                                case 1:
+                                    dataToPlot = rates.getJSONArray("evasion");
+                                    graphDescription.setText(R.string.evasion_description);
 
+                                    break;
+                                case 2:
+                                    dataToPlot = rates.getJSONArray("performance");
+                                    graphDescription.setText(R.string.performance_description);
 
-            PlotterManager manager = new PlotterManager(initialXYear, graph, dataToPlot);
+                                    break;
+                                case 3:
+                                    dataToPlot = rates.getJSONArray("distortion");
+                                    graphDescription.setText(R.string.distortion_description);
 
+                                    break;
+                                default:
+                                    break;
+                            }
 
+                            initialXYear = Integer.parseInt(data.getString("year"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        PlotterManager manager = new PlotterManager( graph, dataToPlot);
 
-            if (manager.plotSimpleLineGraph()) {
-                graph.setVisibility(View.VISIBLE);
-                tabsStrip.setVisibility(View.VISIBLE);
-                graphDescription.setVisibility(View.VISIBLE);
-                focusOnView();
-
+                        if (manager.plotSimpleLineGraph(initialXYear)) {
+                            graph.setVisibility(View.VISIBLE);
+                            tabsStrip.setVisibility(View.VISIBLE);
+                            graphDescription.setVisibility(View.VISIBLE);
+                            focusOnView();
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
