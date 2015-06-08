@@ -1,6 +1,8 @@
 package graphs;
 
 
+import android.util.Log;
+
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.BarGraphSeries;
@@ -47,7 +49,9 @@ public class PlotterManager {
              public String formatLabel(double value, boolean isValueX) {
                  if (isValueX) {
                      // show normal x values
-                     return super.formatLabel(value, isValueX);
+                     String year = Double.toString(value);
+                     String yearFixed = year.substring(0,4);
+                     return yearFixed;
                  } else {
                      // show currency for y values
                      return super.formatLabel(value, isValueX) + "%";
@@ -77,6 +81,21 @@ public class PlotterManager {
         this.graphToPlot.addSeries(currentSerie);
         currentSerie.setSpacing(1);
         currentSerie.setDrawValuesOnTop(true);
+
+        this.graphToPlot.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if (isValueX) {
+                    // show normal x values
+                    String year = Double.toString(value);
+                    String yearFixed = year.substring(0, 4);
+                    return yearFixed;
+                } else {
+                    // show currency for y values
+                    return super.formatLabel(value, isValueX) + " pts";
+                }
+            }
+        });
 
         return true;
     }
