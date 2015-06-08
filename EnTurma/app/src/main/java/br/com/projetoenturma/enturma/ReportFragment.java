@@ -1,16 +1,21 @@
 package br.com.projetoenturma.enturma;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +46,7 @@ public class ReportFragment extends Fragment {
     TextView graphDescription;
     GraphView graph;
     JSONObject reportResponse;
+    ScrollView reportFormScrollView;
 
     /**
      * The fragment argument representing the section number for this
@@ -119,6 +125,8 @@ public class ReportFragment extends Fragment {
         graphDescription.setText("Plotar IDEB ");
 
 
+
+
         tabsStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             // This method will be invoked when a new page becomes selected.
@@ -150,6 +158,19 @@ public class ReportFragment extends Fragment {
         tabsStrip.setVisibility(View.INVISIBLE);
         graphDescription.setVisibility(View.INVISIBLE);
 
+
+
+    }
+
+    private final void focusOnView(){
+
+        reportFormScrollView = (ScrollView) getView().findViewById(R.id.report_form_scroll_view);
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                reportFormScrollView.scrollTo(0, viewPager.getBottom()+100);
+            }
+        });
     }
 
     private void setupActions() {
@@ -272,6 +293,7 @@ public class ReportFragment extends Fragment {
                 graph.setVisibility(View.VISIBLE);
                 tabsStrip.setVisibility(View.VISIBLE);
                 graphDescription.setVisibility(View.VISIBLE);
+                focusOnView();
 
             }
         }
