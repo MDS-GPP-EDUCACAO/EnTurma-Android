@@ -24,4 +24,6 @@ dependencies {
     compile 'com.jjoe64:graphview:4.0.1'
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.loopj.android:android-async-http:1.4.5'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+
 }

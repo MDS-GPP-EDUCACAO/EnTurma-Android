@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +14,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -31,7 +36,9 @@ public class CompareFragment extends Fragment {
     Spinner gradeSpinner;
     Button requestButton;
     ProgressDialog activityIdicator;
-
+    TextView graphTitle;
+    PagerSlidingTabStrip tabsStrip;
+    ViewPager viewPager;
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -57,6 +64,7 @@ public class CompareFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_compare, container, false);
+
         return rootView;
     }
 
@@ -93,6 +101,70 @@ public class CompareFragment extends Fragment {
         activityIdicator = new ProgressDialog(getActivity());
         activityIdicator.setMessage("Procurando pelo relatório");
         activityIdicator.setCancelable(false);
+
+        graphTitle = (TextView) getView().findViewById(R.id.graph_title);
+
+        setupTabPageViewer();
+
+
+    }
+
+    private void setupTabPageViewer(){
+
+        viewPager = (ViewPager) getView().findViewById(R.id.viewpager);
+        viewPager.setAdapter(new GraphsFragmentPagerAdapter(getActivity().getSupportFragmentManager()));
+        // Give the PagerSlidingTabStrip the ViewPager
+        tabsStrip = (PagerSlidingTabStrip) getView().findViewById(R.id.tabs);
+        // Attach the view pager to the tab strip
+        tabsStrip.setViewPager(viewPager);
+        graphTitle.setText( "Plotar IDEB ");
+
+
+        tabsStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            // This method will be invoked when a new page becomes selected.
+            @Override
+            public void onPageSelected(int position) {
+
+                switch (position) {
+
+                    case 0:
+                        graphTitle.setText("Plotar IDEB ");
+
+                        break;
+                    case 1:
+                        graphTitle.setText("Plotar Evasão ");
+
+                        break;
+                    case 2:
+                        graphTitle.setText("Plotar Rendimento ");
+
+                        break;
+                    case 3:
+                        graphTitle.setText("Plotar Distorção ");
+
+                        break;
+                    default:
+                        graphTitle.setText("Plotar IDEB ");
+
+                        break;
+
+                }
+            }
+            // This method will be invoked when the current page is scrolled
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                // Code goes here
+            }
+
+            // Called when the scroll state changes:
+            // SCROLL_STATE_IDLE, SCROLL_STATE_DRAGGING, SCROLL_STATE_SETTLING
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                // Code goes here
+            }
+        });
+
     }
 
     private void setupActions(){
@@ -161,3 +233,4 @@ public class CompareFragment extends Fragment {
         });
     }
 }
+
