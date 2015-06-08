@@ -234,17 +234,21 @@ public class ReportFragment extends Fragment {
                     switch (graphOptionSelected) {
 
                         case 0:
+                            graphDescription.setText(R.string.ideb_description);
                             break;
                         case 1:
                             dataToPlot = rates.getJSONArray("evasion");
+                            graphDescription.setText(R.string.evasion_description);
 
                             break;
                         case 2:
                             dataToPlot = rates.getJSONArray("performance");
+                            graphDescription.setText(R.string.performance_description);
 
                             break;
                         case 3:
                             dataToPlot = rates.getJSONArray("distortion");
+                            graphDescription.setText(R.string.distortion_description);
 
                             break;
                         default:
