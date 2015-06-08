@@ -13,33 +13,33 @@ import java.lang.reflect.Array;
 public class PlotterManager {
 
     private int initialXYear;
-    private GraphView[] graphsToPlot;
-    private JSONArray[] dataToPlot;
+    private GraphView graphToPlot;
+    private JSONArray dataToPlot;
 
 
-    public PlotterManager(int initialXYear, GraphView[] graphsToPlot, JSONArray[] dataToPlot){
+    public PlotterManager(int initialXYear, GraphView graphToPlot, JSONArray dataToPlot){
         this.initialXYear = initialXYear;
-        this.graphsToPlot = graphsToPlot;
+        this.graphToPlot = graphToPlot;
         this.dataToPlot = dataToPlot;
     }
 
     public boolean plotSimpleLineGraph(){
-        if (this.graphsToPlot.length == dataToPlot.length){
-            for (int i = 0; i < graphsToPlot.length; i++) {
-                JSONArray currentDataToPlot = this.dataToPlot[i];
+                JSONArray currentDataToPlot = this.dataToPlot;
                 DataPoint[] currentDataPoint = new DataPoint[currentDataToPlot.length()];
                 for (int j = 0; j <currentDataToPlot.length(); j++) {
                     try {
-                        currentDataPoint[j] = new DataPoint((double)initialXYear+j,(double)currentDataToPlot.get(j));
+                        Number dataX = (Number)currentDataToPlot.get(j);
+
+                        currentDataPoint[j] = new DataPoint((double)initialXYear+j,dataX.doubleValue());
                     } catch (JSONException e) {
                         e.printStackTrace();
                         return false;
                     }
                 }
                 LineGraphSeries<DataPoint> currentSerie = new LineGraphSeries<DataPoint>(currentDataPoint);
-                this.graphsToPlot[i].addSeries(currentSerie);
-            }
-        }
+                this.graphToPlot.addSeries(currentSerie);
+
+
         return true;
     }
 

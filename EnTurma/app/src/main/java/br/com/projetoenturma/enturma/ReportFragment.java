@@ -2,19 +2,20 @@ package br.com.projetoenturma.enturma;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.jjoe64.graphview.GraphView;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -35,7 +36,11 @@ public class ReportFragment extends Fragment {
     Spinner yearSpinner, stateSpinner, gradeSpinner, networkSpinner,publicTypeSpinner, localSpinner;
     Button sendButton;
     ProgressDialog activityIdicator;
-
+    PagerSlidingTabStrip tabsStrip;
+    ViewPager viewPager;
+    TextView graphDescription;
+    GraphView graph;
+    JSONObject reportResponse;
 
     /**
      * The fragment argument representing the section number for this
@@ -89,6 +94,62 @@ public class ReportFragment extends Fragment {
         activityIdicator = new ProgressDialog(getActivity());
         activityIdicator.setMessage("Procurando pelo relatório");
         activityIdicator.setCancelable(false);
+
+
+        graph = (GraphView) getView().findViewById(R.id.graph);
+
+        setupTabPageViewer();
+
+        graph.setVisibility(View.INVISIBLE);
+        tabsStrip.setVisibility(View.INVISIBLE);
+        graphDescription.setVisibility(View.INVISIBLE);
+
+
+    }
+
+    private void setupTabPageViewer(){
+        graphDescription = (TextView) getView().findViewById(R.id.graph_description);
+
+        viewPager = (ViewPager) getView().findViewById(R.id.viewpager);
+        viewPager.setAdapter(new GraphsFragmentPagerAdapter(getActivity().getSupportFragmentManager()));
+        // Give the PagerSlidingTabStrip the ViewPager
+        tabsStrip = (PagerSlidingTabStrip) getView().findViewById(R.id.tabs);
+        // Attach the view pager to the tab strip
+        tabsStrip.setViewPager(viewPager);
+        graphDescription.setText("Plotar IDEB ");
+
+
+        tabsStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            // This method will be invoked when a new page becomes selected.
+            @Override
+            public void onPageSelected(int position) {
+
+                plotData(reportResponse, position);
+
+            }
+
+            // This method will be invoked when the current page is scrolled
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                // Code goes here
+
+            }
+
+            // Called when the scroll state changes:
+            // SCROLL_STATE_IDLE, SCROLL_STATE_DRAGGING, SCROLL_STATE_SETTLING
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                // Code goes here
+            }
+
+
+        });
+
+        graph.setVisibility(View.INVISIBLE);
+        tabsStrip.setVisibility(View.INVISIBLE);
+        graphDescription.setVisibility(View.INVISIBLE);
+
     }
 
     private void setupActions() {
@@ -115,6 +176,8 @@ public class ReportFragment extends Fragment {
         });
     }
 
+
+
     private void requestData(){
 
         Map<String,String> params = new HashMap();
@@ -134,8 +197,15 @@ public class ReportFragment extends Fragment {
                 activityIdicator.dismiss();
                 Toast.makeText(getActivity().getApplicationContext(), "Sucesso!", Toast.LENGTH_LONG).show();
                 //plot graph with response object
-                System.out.println(response.toString());
-                plotData(response);
+                try {
+                    reportResponse = new JSONObject(response.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(reportResponse.toString());
+
+                plotData(reportResponse, 0);
+
             }
 
             @Override
@@ -148,32 +218,58 @@ public class ReportFragment extends Fragment {
         });
     }
 
-    private void plotData(JSONObject data){
-        JSONObject rates = data.optJSONObject("rates");
-        JSONArray[] datas = new JSONArray[3];
-        int initialXYear = 0;
-        try {
-            if (rates.getString("status").equals("available")){
-                datas[0] = rates.getJSONArray("evasion");
-                datas[1] = rates.getJSONArray("performance");
-                datas[2] = rates.getJSONArray("distortion");
-                initialXYear = Integer.parseInt(data.getString("year"));
+    private void plotData(JSONObject data, int graphOptionSelected) {
+
+        if (data != null) {
+
+            graph.removeAllSeries();
+
+
+            JSONObject rates = data.optJSONObject("rates");
+            JSONArray dataToPlot = new JSONArray();
+            int initialXYear = 0;
+            try {
+                if (rates.getString("status").equals("available")) {
+
+                    switch (graphOptionSelected) {
+
+                        case 0:
+                            break;
+                        case 1:
+                            dataToPlot = rates.getJSONArray("evasion");
+
+                            break;
+                        case 2:
+                            dataToPlot = rates.getJSONArray("performance");
+
+                            break;
+                        case 3:
+                            dataToPlot = rates.getJSONArray("distortion");
+
+                            break;
+                        default:
+                            break;
+
+                    }
+
+                    initialXYear = Integer.parseInt(data.getString("year"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-        GraphView[] graphViews = new GraphView[]{
-                (GraphView) getView().findViewById(R.id.evasion_graph),
-                (GraphView) getView().findViewById(R.id.performance_graph),
-                (GraphView) getView().findViewById(R.id.distortion_graph)
-        };
 
-        PlotterManager manager = new PlotterManager(initialXYear,graphViews,datas);
 
-        if (manager.plotSimpleLineGraph()){
-            LinearLayout graphs = (LinearLayout) getView().findViewById(R.id.graphs);
-            graphs.setVisibility(View.VISIBLE);
+            PlotterManager manager = new PlotterManager(initialXYear, graph, dataToPlot);
+
+
+
+            if (manager.plotSimpleLineGraph()) {
+                graph.setVisibility(View.VISIBLE);
+                tabsStrip.setVisibility(View.VISIBLE);
+                graphDescription.setVisibility(View.VISIBLE);
+
+            }
         }
     }
 }

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -102,7 +100,6 @@ public class CompareFragment extends Fragment {
         activityIdicator.setMessage("Procurando pelo relatório");
         activityIdicator.setCancelable(false);
 
-        graphTitle = (TextView) getView().findViewById(R.id.graph_title);
 
         setupTabPageViewer();
 
@@ -110,6 +107,7 @@ public class CompareFragment extends Fragment {
     }
 
     private void setupTabPageViewer(){
+        graphTitle = (TextView) getView().findViewById(R.id.graph_description);
 
         viewPager = (ViewPager) getView().findViewById(R.id.viewpager);
         viewPager.setAdapter(new GraphsFragmentPagerAdapter(getActivity().getSupportFragmentManager()));

@@ -21,6 +21,7 @@
     <string name="request_failure">Desculpe! Não foi possível se conectar com o servidor</string>
 
 
+
     <string name="years_prompt">Escolha um Ano</string>
     <string-array name="years_array">
         <item>2008</item>
@@ -30,6 +31,8 @@
         <item>2012</item>
         <item>2013</item>
     </string-array>
+
+
 
     <string name="states_prompt">Escolha um Estado</string>
     <string-array name="states_array">
