@@ -17,6 +17,10 @@
 
     <string name="hello_world">Hello world!</string>
 
+    <string name="request_success">Dados Obtidos!</string>
+    <string name="request_failure">Desculpe! Não foi possível se conectar com o servidor</string>
+
+
     <string name="years_prompt">Escolha um Ano</string>
     <string-array name="years_array">
         <item>2008</item>
