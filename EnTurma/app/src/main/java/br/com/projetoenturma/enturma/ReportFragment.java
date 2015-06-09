@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -153,16 +154,11 @@ public class ReportFragment extends Fragment {
             public void onPageScrollStateChanged(int state) {
                 // Code goes here
             }
-
-
         });
 
         graph.setVisibility(View.INVISIBLE);
         tabsStrip.setVisibility(View.INVISIBLE);
         graphDescription.setVisibility(View.INVISIBLE);
-
-
-
     }
 
     private final void focusOnView(){
@@ -335,7 +331,7 @@ public class ReportFragment extends Fragment {
                         standardView.setText(standard);
                         varianceView.setText(variance);
 
-                        if (manager.plotSimpleLineGraph(initialXYear)) {
+                        if (manager.plotSimpleLineGraph(initialXYear, Color.BLUE)) {
                             graph.setVisibility(View.VISIBLE);
                             tabsStrip.setVisibility(View.VISIBLE);
                             graphDescription.setVisibility(View.VISIBLE);
@@ -344,6 +340,12 @@ public class ReportFragment extends Fragment {
                             varianceView.setVisibility(View.VISIBLE);
                             focusOnView();
                         }
+                    }else{
+                        graph.setVisibility(View.VISIBLE);
+                        tabsStrip.setVisibility(View.VISIBLE);
+                        graphDescription.setText("Desculpe, mais não temo esse dado disponível.");
+                        graphDescription.setVisibility(View.VISIBLE);
+                        focusOnView();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -26,7 +26,7 @@ public class PlotterManager {
         this.dataToPlot = dataToPlot;
     }
 
-    public boolean plotSimpleLineGraph(int initialXYear){
+    public boolean plotSimpleLineGraph(int initialXYear, int color){
         JSONArray currentDataToPlot = this.dataToPlot;
         DataPoint[] currentDataPoint = new DataPoint[currentDataToPlot.length()];
         for (int j = 0; j <currentDataToPlot.length(); j++) {
@@ -43,7 +43,7 @@ public class PlotterManager {
         this.graphToPlot.addSeries(currentSerie);
         currentSerie.setThickness(8);
         currentSerie.setDataPointsRadius(4);
-
+        currentSerie.setColor(color);
         this.graphToPlot.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
              @Override
              public String formatLabel(double value, boolean isValueX) {

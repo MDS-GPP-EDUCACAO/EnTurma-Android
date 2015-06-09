@@ -2,6 +2,8 @@ package br.com.projetoenturma.enturma;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -11,19 +13,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.jjoe64.graphview.GraphView;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import graphs.PlotterManager;
 import rest.request.RESTFull;
 
 public class CompareFragment extends Fragment {
@@ -37,6 +44,10 @@ public class CompareFragment extends Fragment {
     TextView graphTitle;
     PagerSlidingTabStrip tabsStrip;
     ViewPager viewPager;
+    GraphView graph;
+    JSONObject reportResponse;
+    TextView graphDescription,averageView,standardView,varianceView;
+    ScrollView compareFormScrollView;
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -101,13 +112,17 @@ public class CompareFragment extends Fragment {
         activityIdicator.setCancelable(false);
 
 
+        graph = (GraphView) getView().findViewById(R.id.graph);
         setupTabPageViewer();
 
 
     }
 
     private void setupTabPageViewer(){
-        graphTitle = (TextView) getView().findViewById(R.id.graph_description);
+        graphDescription = (TextView) getView().findViewById(R.id.graph_description);
+        averageView = (TextView) getView().findViewById(R.id.average);
+        standardView = (TextView) getView().findViewById(R.id.standard_desviation);
+        varianceView = (TextView) getView().findViewById(R.id.variance);
 
         viewPager = (ViewPager) getView().findViewById(R.id.viewpager);
         viewPager.setAdapter(new GraphsFragmentPagerAdapter(getActivity().getSupportFragmentManager()));
@@ -115,7 +130,7 @@ public class CompareFragment extends Fragment {
         tabsStrip = (PagerSlidingTabStrip) getView().findViewById(R.id.tabs);
         // Attach the view pager to the tab strip
         tabsStrip.setViewPager(viewPager);
-        graphTitle.setText( "Plotar IDEB ");
+        graphDescription.setText("Plotar IDEB ");
 
 
         tabsStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -123,32 +138,11 @@ public class CompareFragment extends Fragment {
             // This method will be invoked when a new page becomes selected.
             @Override
             public void onPageSelected(int position) {
-
-                switch (position) {
-
-                    case 0:
-                        graphTitle.setText("Plotar IDEB ");
-
-                        break;
-                    case 1:
-                        graphTitle.setText("Plotar Evasão ");
-
-                        break;
-                    case 2:
-                        graphTitle.setText("Plotar Rendimento ");
-
-                        break;
-                    case 3:
-                        graphTitle.setText("Plotar Distorção ");
-
-                        break;
-                    default:
-                        graphTitle.setText("Plotar IDEB ");
-
-                        break;
-
-                }
+                graph.removeAllSeries();
+                plotData(reportResponse.optJSONObject("first_report"),position, Color.BLUE);
+                plotData(reportResponse.optJSONObject("second_report"),position, Color.RED);
             }
+
             // This method will be invoked when the current page is scrolled
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -174,6 +168,17 @@ public class CompareFragment extends Fragment {
 
         showWhenEqual("Publica", firstPublicTypeSpinner, firstNetworkSpinner);
         showWhenEqual("Publica", secondPublicTypeSpinner, secondNetworkSpinner);
+    }
+
+    private final void focusOnView(){
+
+        compareFormScrollView = (ScrollView) getView().findViewById(R.id.compare_form_scroll_view);
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                compareFormScrollView.scrollTo(0, viewPager.getBottom() + 100);
+            }
+        });
     }
 
     private void showWhenEqual(final String value, final Spinner show, final Spinner entry){
@@ -218,6 +223,9 @@ public class CompareFragment extends Fragment {
                 Toast.makeText(getActivity().getApplicationContext(), R.string.request_success, Toast.LENGTH_LONG).show();
                 //plot graph with response object
                 System.out.println(response.toString());
+                reportResponse = response;
+                plotData(reportResponse.optJSONObject("first_report"),0, Color.BLUE);
+                plotData(reportResponse.optJSONObject("second_report"),0, Color.RED);
             }
 
 
@@ -229,6 +237,119 @@ public class CompareFragment extends Fragment {
                 Log.d("omg android", statusCode + " " + throwable.getMessage());
             }
         });
+    }
+
+    private void plotData(JSONObject data, int graphOptionSelected, int color) {
+
+        if (data != null) {
+            JSONArray dataToPlot = new JSONArray();
+
+            if (graphOptionSelected == 0){
+                JSONObject ideb = data.optJSONObject("ideb");
+                try {
+                    if (ideb.getString("status").equals("available")){
+                        dataToPlot = ideb.getJSONArray("ideb");
+                        graphDescription.setText(R.string.ideb_description);
+
+                        String average = "Média: " + String.format("%.2f",ideb.getDouble("ideb_average"));
+                        String standard = "Desvio Padrão: " + String.format("%.2f", ideb.getDouble("ideb_standard_deviation"));
+                        String variance = "Variância: " + String.format("%.4f", ideb.getDouble("ideb_variance"));
+
+                        averageView.setText(average);
+                        standardView.setText(standard);
+                        varianceView.setText(variance);
+
+                        PlotterManager manager = new PlotterManager( graph, dataToPlot);
+
+                        if (manager.plotSimpleBarGraph(ideb.getJSONArray("ideb_years"))) {
+                            graph.setVisibility(View.VISIBLE);
+                            tabsStrip.setVisibility(View.VISIBLE);
+                            graphDescription.setVisibility(View.VISIBLE);
+                            averageView.setVisibility(View.VISIBLE);
+                            standardView.setVisibility(View.VISIBLE);
+                            varianceView.setVisibility(View.VISIBLE);
+                            focusOnView();
+                        }
+                    }else{
+                        graph.setVisibility(View.VISIBLE);
+                        tabsStrip.setVisibility(View.VISIBLE);
+                        graphDescription.setText("Desculpe, mais não temo esse dado disponível.");
+                        graphDescription.setVisibility(View.VISIBLE);
+                        focusOnView();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }else{
+                JSONObject rates = data.optJSONObject("rates");
+                int initialXYear = 0;
+                try {
+                    if(rates.getString("status").equals("available")){
+                        String average = "Média: ";
+                        String standard = "Desvio Padrão: ";
+                        String variance = "Variância: ";
+                        try {
+                            switch (graphOptionSelected) {
+                                case 1:
+                                    dataToPlot = rates.getJSONArray("evasion");
+                                    graphDescription.setText(R.string.evasion_description);
+                                    average += String.format("%.2f",rates.getDouble("evasion_average"));
+                                    standard += String.format("%.2f",rates.getDouble("evasion_standard_deviation"));
+                                    variance += String.format("%.2f",rates.getDouble("evasion_variance"));
+
+                                    break;
+                                case 2:
+                                    dataToPlot = rates.getJSONArray("performance");
+                                    graphDescription.setText(R.string.performance_description);
+                                    average += String.format("%.2f",rates.getDouble("performance_average"));
+                                    standard += String.format("%.2f", rates.getDouble("performance_standard_deviation"));
+                                    variance += String.format("%.2f",rates.getDouble("performance_variance"));
+
+                                    break;
+                                case 3:
+                                    dataToPlot = rates.getJSONArray("distortion");
+                                    graphDescription.setText(R.string.distortion_description);
+                                    average += String.format("%.2f",rates.getDouble("distortion_average"));
+                                    standard += String.format("%.2f", rates.getDouble("distortion_standard_deviation"));
+                                    variance += String.format("%.2f",rates.getDouble("distortion_variance"));
+
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            initialXYear = Integer.parseInt(data.getString("year"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        PlotterManager manager = new PlotterManager( graph, dataToPlot);
+
+                        averageView.setText(average);
+                        standardView.setText(standard);
+                        varianceView.setText(variance);
+
+                        if (manager.plotSimpleLineGraph(initialXYear,color)) {
+                            graph.setVisibility(View.VISIBLE);
+                            tabsStrip.setVisibility(View.VISIBLE);
+                            graphDescription.setVisibility(View.VISIBLE);
+                            averageView.setVisibility(View.VISIBLE);
+                            standardView.setVisibility(View.VISIBLE);
+                            varianceView.setVisibility(View.VISIBLE);
+                            focusOnView();
+                        }
+                    }else{
+                        graph.setVisibility(View.VISIBLE);
+                        tabsStrip.setVisibility(View.VISIBLE);
+                        graphDescription.setText("Desculpe, mais não temo esse dado disponível.");
+                        graphDescription.setVisibility(View.VISIBLE);
+                        focusOnView();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
 
