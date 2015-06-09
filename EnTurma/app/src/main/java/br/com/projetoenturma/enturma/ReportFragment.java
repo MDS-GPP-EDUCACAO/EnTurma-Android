@@ -223,7 +223,7 @@ public class ReportFragment extends Fragment {
                     e.printStackTrace();
                 }
                 System.out.println(reportResponse.toString());
-
+                graph.removeAllSeries();
                 plotData(reportResponse, 0);
 
             }
@@ -257,13 +257,13 @@ public class ReportFragment extends Fragment {
                         String standard = "Desvio Padrão: " + String.format("%.2f", ideb.getDouble("ideb_standard_deviation"));
                         String variance = "Variância: " + String.format("%.4f", ideb.getDouble("ideb_variance"));
 
-                        averageView.setText(average);
-                        standardView.setText(standard);
-                        varianceView.setText(variance);
+                        averageView.setText(average + "pts ");
+                        standardView.setText(standard+ "pts ");
+                        varianceView.setText(variance+ "pts " );
 
                         PlotterManager manager = new PlotterManager( graph, dataToPlot);
 
-                        if (manager.plotSimpleBarGraph(ideb.getJSONArray("ideb_years"))) {
+                        if (manager.plotSimpleBarGraph(ideb.getJSONArray("ideb_years"),Color.BLUE)) {
                             graph.setVisibility(View.VISIBLE);
                             tabsStrip.setVisibility(View.VISIBLE);
                             graphDescription.setVisibility(View.VISIBLE);
@@ -327,9 +327,9 @@ public class ReportFragment extends Fragment {
                         }
                         PlotterManager manager = new PlotterManager( graph, dataToPlot);
 
-                        averageView.setText(average);
-                        standardView.setText(standard);
-                        varianceView.setText(variance);
+                        averageView.setText(average+ "% ");
+                        standardView.setText(standard + "% ");
+                        varianceView.setText(variance+ "% ");
 
                         if (manager.plotSimpleLineGraph(initialXYear, Color.BLUE)) {
                             graph.setVisibility(View.VISIBLE);

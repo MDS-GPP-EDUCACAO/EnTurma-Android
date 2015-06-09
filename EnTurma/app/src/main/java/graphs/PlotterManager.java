@@ -66,7 +66,7 @@ public class PlotterManager {
         return true;
     }
 
-    public boolean plotSimpleBarGraph(JSONArray idebYears){
+    public boolean plotSimpleBarGraph(JSONArray idebYears,int color){
         JSONArray currentDataToPlot = this.dataToPlot;
         DataPoint[] currentDataPoint = new DataPoint[currentDataToPlot.length()];
         for (int i = 0; i < currentDataPoint.length; i++) {
@@ -83,6 +83,7 @@ public class PlotterManager {
         this.graphToPlot.addSeries(currentSerie);
         currentSerie.setSpacing(1);
         currentSerie.setDrawValuesOnTop(true);
+        currentSerie.setColor(color);
 
         this.graphToPlot.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override

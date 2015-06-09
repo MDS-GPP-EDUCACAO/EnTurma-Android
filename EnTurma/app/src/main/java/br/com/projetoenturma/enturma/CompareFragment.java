@@ -46,7 +46,7 @@ public class CompareFragment extends Fragment {
     ViewPager viewPager;
     GraphView graph;
     JSONObject reportResponse;
-    TextView graphDescription,averageView,standardView,varianceView;
+    TextView graphDescription,averageView,standardView,varianceView,averageView2,standardView2,varianceView2;
     ScrollView compareFormScrollView;
     /**
      * The fragment argument representing the section number for this
@@ -123,6 +123,9 @@ public class CompareFragment extends Fragment {
         averageView = (TextView) getView().findViewById(R.id.average);
         standardView = (TextView) getView().findViewById(R.id.standard_desviation);
         varianceView = (TextView) getView().findViewById(R.id.variance);
+        averageView2 = (TextView) getView().findViewById(R.id.average2);
+        standardView2 = (TextView) getView().findViewById(R.id.standard_desviation2);
+        varianceView2 = (TextView) getView().findViewById(R.id.variance2);
 
         viewPager = (ViewPager) getView().findViewById(R.id.viewpager);
         viewPager.setAdapter(new GraphsFragmentPagerAdapter(getActivity().getSupportFragmentManager()));
@@ -223,6 +226,7 @@ public class CompareFragment extends Fragment {
                 Toast.makeText(getActivity().getApplicationContext(), R.string.request_success, Toast.LENGTH_LONG).show();
                 //plot graph with response object
                 System.out.println(response.toString());
+                graph.removeAllSeries();
                 reportResponse = response;
                 plotData(reportResponse.optJSONObject("first_report"),0, Color.BLUE);
                 plotData(reportResponse.optJSONObject("second_report"),0, Color.RED);
@@ -251,23 +255,32 @@ public class CompareFragment extends Fragment {
                         dataToPlot = ideb.getJSONArray("ideb");
                         graphDescription.setText(R.string.ideb_description);
 
-                        String average = "Média: " + String.format("%.2f",ideb.getDouble("ideb_average"));
-                        String standard = "Desvio Padrão: " + String.format("%.2f", ideb.getDouble("ideb_standard_deviation"));
-                        String variance = "Variância: " + String.format("%.4f", ideb.getDouble("ideb_variance"));
+                        String average = "Média: " + String.format("%.2f",ideb.getDouble("ideb_average")) + "pts ";
+                        String standard = "Desvio Padrão: " + String.format("%.2f", ideb.getDouble("ideb_standard_deviation"))+ "pts ";
+                        String variance = "Variância: " + String.format("%.4f", ideb.getDouble("ideb_variance"))+ "pts ";
+                        if (color == Color.BLUE){
+                            averageView.setText(average);
+                            standardView.setText(standard);
+                            varianceView.setText(variance);
+                        }else{
+                            averageView2.setText(average);
+                            standardView2.setText(standard);
+                            varianceView2.setText(variance);
+                        }
 
-                        averageView.setText(average);
-                        standardView.setText(standard);
-                        varianceView.setText(variance);
 
                         PlotterManager manager = new PlotterManager( graph, dataToPlot);
 
-                        if (manager.plotSimpleBarGraph(ideb.getJSONArray("ideb_years"))) {
+                        if (manager.plotSimpleBarGraph(ideb.getJSONArray("ideb_years"),color)) {
                             graph.setVisibility(View.VISIBLE);
                             tabsStrip.setVisibility(View.VISIBLE);
                             graphDescription.setVisibility(View.VISIBLE);
                             averageView.setVisibility(View.VISIBLE);
                             standardView.setVisibility(View.VISIBLE);
                             varianceView.setVisibility(View.VISIBLE);
+                            averageView2.setVisibility(View.VISIBLE);
+                            standardView2.setVisibility(View.VISIBLE);
+                            varianceView2.setVisibility(View.VISIBLE);
                             focusOnView();
                         }
                     }else{
@@ -325,9 +338,15 @@ public class CompareFragment extends Fragment {
                         }
                         PlotterManager manager = new PlotterManager( graph, dataToPlot);
 
-                        averageView.setText(average);
-                        standardView.setText(standard);
-                        varianceView.setText(variance);
+                        if (color == Color.BLUE){
+                            averageView.setText(average + "% ");
+                            standardView.setText(standard+ "% ");
+                            varianceView.setText(variance+ "% ");
+                        }else{
+                            averageView2.setText(average+ "% ");
+                            standardView2.setText(standard+ "% ");
+                            varianceView2.setText(variance+ "% ");
+                        }
 
                         if (manager.plotSimpleLineGraph(initialXYear,color)) {
                             graph.setVisibility(View.VISIBLE);
@@ -336,6 +355,9 @@ public class CompareFragment extends Fragment {
                             averageView.setVisibility(View.VISIBLE);
                             standardView.setVisibility(View.VISIBLE);
                             varianceView.setVisibility(View.VISIBLE);
+                            averageView2.setVisibility(View.VISIBLE);
+                            standardView2.setVisibility(View.VISIBLE);
+                            varianceView2.setVisibility(View.VISIBLE);
                             focusOnView();
                         }
                     }else{
