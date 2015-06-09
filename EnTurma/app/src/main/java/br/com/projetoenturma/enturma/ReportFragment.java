@@ -44,7 +44,7 @@ public class ReportFragment extends Fragment {
     ProgressDialog activityIdicator;
     PagerSlidingTabStrip tabsStrip;
     ViewPager viewPager;
-    TextView graphDescription,averageView,standardView,varianceView;
+    TextView graphDescription,averageView,standardView,varianceView, textStandard, textVariance, textAverage;
     GraphView graph;
     JSONObject reportResponse;
     ScrollView reportFormScrollView;
@@ -94,6 +94,9 @@ public class ReportFragment extends Fragment {
         publicTypeSpinner = (Spinner) getView().findViewById(R.id.public_type);
         localSpinner = (Spinner) getView().findViewById(R.id.local);
         sendButton = (Button) getView().findViewById(R.id.send_report);
+        textVariance = (TextView) getView().findViewById(R.id.text_variance);
+        textAverage = (TextView) getView().findViewById(R.id.text_average);
+        textStandard = (TextView) getView().findViewById(R.id.text_standard_desviation);
 
 
         setupActions();
@@ -253,9 +256,9 @@ public class ReportFragment extends Fragment {
                         dataToPlot = ideb.getJSONArray("ideb");
                         graphDescription.setText(R.string.ideb_description);
 
-                        String average = "Média: " + String.format("%.2f",ideb.getDouble("ideb_average"));
-                        String standard = "Desvio Padrão: " + String.format("%.2f", ideb.getDouble("ideb_standard_deviation"));
-                        String variance = "Variância: " + String.format("%.4f", ideb.getDouble("ideb_variance"));
+                        String average = "" + String.format("%.2f",ideb.getDouble("ideb_average"));
+                        String standard = "" + String.format("%.2f", ideb.getDouble("ideb_standard_deviation"));
+                        String variance = "" + String.format("%.4f", ideb.getDouble("ideb_variance"));
 
                         averageView.setText(average + "pts ");
                         standardView.setText(standard+ "pts ");
@@ -270,6 +273,9 @@ public class ReportFragment extends Fragment {
                             averageView.setVisibility(View.VISIBLE);
                             standardView.setVisibility(View.VISIBLE);
                             varianceView.setVisibility(View.VISIBLE);
+                            textVariance.setVisibility(View.VISIBLE);
+                            textAverage.setVisibility(View.VISIBLE);
+                            textStandard.setVisibility(View.VISIBLE);
                             focusOnView();
                         }
                     }else{
@@ -288,9 +294,9 @@ public class ReportFragment extends Fragment {
                 int initialXYear = 0;
                 try {
                     if(rates.getString("status").equals("available")){
-                        String average = "Média: ";
-                        String standard = "Desvio Padrão: ";
-                        String variance = "Variância: ";
+                        String average = "";
+                        String standard = "";
+                        String variance = "";
                         try {
                             switch (graphOptionSelected) {
                                 case 1:

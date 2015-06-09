@@ -189,6 +189,8 @@
 
             </LinearLayout>
 
+
+
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
@@ -215,19 +217,64 @@
                     android:id="@+id/graph"
                     />
 
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/text_average"
+                        android:layout_width="wrap_content"
+                        android:text="Média"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:visibility="invisible"
+                        android:textSize="10dp"
+                        android:width="50sp"/>
+                    <TextView
+                        android:id="@+id/text_standard_desviation"
+                        android:layout_width="wrap_content"
+                        android:text="Desvio Padrão"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:visibility="invisible"
+                        android:textSize="10dp"
+                        android:width="90sp"/>
+                    <TextView
+                        android:id="@+id/text_variance"
+                        android:text="Variância"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:visibility="invisible"
+                        android:textSize="10dp"
+                        android:width="50sp"/>
+
+                </LinearLayout>
+
                 <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal">
 
                 <TextView
                     android:id="@+id/average"
                     android:textColor="#0000FF"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:gravity="left"
-                    android:visibility="invisible"/>
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    android:textSize="10dp"
+                    android:width="50sp"/>
                 <TextView
                     android:id="@+id/standard_desviation"
                     android:textColor="#0000FF"
@@ -235,31 +282,39 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:visibility="invisible"/>
+                    android:visibility="invisible"
+                    android:textSize="10dp"
+                    android:width="90sp"/>
                 <TextView
                     android:id="@+id/variance"
                     android:textColor="#0000FF"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="right"
-                    android:visibility="invisible"/>
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    android:textSize="10dp"
+                    android:width="50sp"/>
 
             </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal">
 
                     <TextView
                         android:id="@+id/average2"
                         android:textColor="#FF0000"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:gravity="left"
-                        android:visibility="invisible"/>
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:visibility="invisible"
+                        android:textSize="10dp"
+                        android:width="50sp"/>
                     <TextView
                         android:id="@+id/standard_desviation2"
                         android:textColor="#FF0000"
@@ -267,15 +322,19 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:visibility="invisible"/>
+                        android:visibility="invisible"
+                        android:textSize="10dp"
+                        android:width="90sp"/>
                     <TextView
                         android:id="@+id/variance2"
                         android:textColor="#FF0000"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:gravity="right"
-                        android:visibility="invisible"/>
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:visibility="invisible"
+                        android:textSize="10dp"
+                        android:width="50sp"/>
 
                 </LinearLayout>
 

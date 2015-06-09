@@ -46,7 +46,7 @@ public class CompareFragment extends Fragment {
     ViewPager viewPager;
     GraphView graph;
     JSONObject reportResponse;
-    TextView graphDescription,averageView,standardView,varianceView,averageView2,standardView2,varianceView2;
+    TextView graphDescription,averageView,standardView,varianceView,averageView2,standardView2,varianceView2,textStandard, textVariance, textAverage;
     ScrollView compareFormScrollView;
     /**
      * The fragment argument representing the section number for this
@@ -120,6 +120,9 @@ public class CompareFragment extends Fragment {
 
     private void setupTabPageViewer(){
         graphDescription = (TextView) getView().findViewById(R.id.graph_description);
+        textVariance = (TextView) getView().findViewById(R.id.text_variance);
+        textAverage = (TextView) getView().findViewById(R.id.text_average);
+        textStandard = (TextView) getView().findViewById(R.id.text_standard_desviation);
         averageView = (TextView) getView().findViewById(R.id.average);
         standardView = (TextView) getView().findViewById(R.id.standard_desviation);
         varianceView = (TextView) getView().findViewById(R.id.variance);
@@ -255,9 +258,9 @@ public class CompareFragment extends Fragment {
                         dataToPlot = ideb.getJSONArray("ideb");
                         graphDescription.setText(R.string.ideb_description);
 
-                        String average = "Média: " + String.format("%.2f",ideb.getDouble("ideb_average")) + "pts ";
-                        String standard = "Desvio Padrão: " + String.format("%.2f", ideb.getDouble("ideb_standard_deviation"))+ "pts ";
-                        String variance = "Variância: " + String.format("%.4f", ideb.getDouble("ideb_variance"))+ "pts ";
+                        String average =  String.format("%.2f",ideb.getDouble("ideb_average")) + "pts ";
+                        String standard = String.format("%.2f", ideb.getDouble("ideb_standard_deviation"))+ "pts ";
+                        String variance = String.format("%.4f", ideb.getDouble("ideb_variance"))+ "pts ";
                         if (color == Color.BLUE){
                             averageView.setText(average);
                             standardView.setText(standard);
@@ -281,6 +284,9 @@ public class CompareFragment extends Fragment {
                             averageView2.setVisibility(View.VISIBLE);
                             standardView2.setVisibility(View.VISIBLE);
                             varianceView2.setVisibility(View.VISIBLE);
+                            textVariance.setVisibility(View.VISIBLE);
+                            textAverage.setVisibility(View.VISIBLE);
+                            textStandard.setVisibility(View.VISIBLE);
                             focusOnView();
                         }
                     }else{
@@ -299,9 +305,9 @@ public class CompareFragment extends Fragment {
                 int initialXYear = 0;
                 try {
                     if(rates.getString("status").equals("available")){
-                        String average = "Média: ";
-                        String standard = "Desvio Padrão: ";
-                        String variance = "Variância: ";
+                        String average = "";
+                        String standard = "";
+                        String variance = "";
                         try {
                             switch (graphOptionSelected) {
                                 case 1:
@@ -363,7 +369,7 @@ public class CompareFragment extends Fragment {
                     }else{
                         graph.setVisibility(View.VISIBLE);
                         tabsStrip.setVisibility(View.VISIBLE);
-                        graphDescription.setText("Desculpe, mais não temo esse dado disponível.");
+                        graphDescription.setText("Desculpe, mais não temos este dado disponível.");
                         graphDescription.setVisibility(View.VISIBLE);
                         focusOnView();
                     }

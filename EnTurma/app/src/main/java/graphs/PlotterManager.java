@@ -13,6 +13,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.lang.reflect.Array;
+import java.util.Date;
+import java.util.Timer;
 
 public class PlotterManager {
 
@@ -43,6 +45,8 @@ public class PlotterManager {
         this.graphToPlot.addSeries(currentSerie);
         currentSerie.setThickness(8);
         currentSerie.setDataPointsRadius(4);
+        currentSerie.setDrawBackground(true);
+
         currentSerie.setColor(color);
         this.graphToPlot.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
              @Override
