@@ -50,7 +50,10 @@ public class PlotterManager {
                  if (isValueX) {
                      // show normal x values
                      String year = Double.toString(value);
-                     String yearFixed = year.substring(0,4);
+                     String yearFixed = "";
+                     if (year.length() >= 4) {
+                         yearFixed = year.substring(0, 4);
+                     }
                      return yearFixed;
                  } else {
                      // show currency for y values
@@ -75,8 +78,7 @@ public class PlotterManager {
                 e.printStackTrace();
             }
         }
-        System.out.println(currentDataPoint[0].toString());
-        System.out.println(currentDataPoint[1].toString());
+
         BarGraphSeries<DataPoint> currentSerie = new BarGraphSeries<DataPoint>(currentDataPoint);
         this.graphToPlot.addSeries(currentSerie);
         currentSerie.setSpacing(1);
@@ -88,7 +90,10 @@ public class PlotterManager {
                 if (isValueX) {
                     // show normal x values
                     String year = Double.toString(value);
-                    String yearFixed = year.substring(0, 4);
+                    String yearFixed = "";
+                    if (year.length() >= 4) {
+                        yearFixed = year.substring(0, 4);
+                    }
                     return yearFixed;
                 } else {
                     // show currency for y values

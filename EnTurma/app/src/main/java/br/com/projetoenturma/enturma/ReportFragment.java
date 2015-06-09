@@ -43,7 +43,7 @@ public class ReportFragment extends Fragment {
     ProgressDialog activityIdicator;
     PagerSlidingTabStrip tabsStrip;
     ViewPager viewPager;
-    TextView graphDescription;
+    TextView graphDescription,averageView,standardView,varianceView;
     GraphView graph;
     JSONObject reportResponse;
     ScrollView reportFormScrollView;
@@ -109,6 +109,9 @@ public class ReportFragment extends Fragment {
         graph.setVisibility(View.INVISIBLE);
         tabsStrip.setVisibility(View.INVISIBLE);
         graphDescription.setVisibility(View.INVISIBLE);
+        averageView = (TextView) getView().findViewById(R.id.average);
+        standardView = (TextView) getView().findViewById(R.id.standard_desviation);
+        varianceView = (TextView) getView().findViewById(R.id.variance);
 
 
     }
@@ -243,6 +246,7 @@ public class ReportFragment extends Fragment {
 
         if (data != null) {
 
+            System.out.println("Olá");
             graph.removeAllSeries();
             JSONArray dataToPlot = new JSONArray();
 
@@ -253,14 +257,31 @@ public class ReportFragment extends Fragment {
                         dataToPlot = ideb.getJSONArray("ideb");
                         graphDescription.setText(R.string.ideb_description);
 
+                        String average = "Média: " + String.format("%.2f",ideb.getDouble("ideb_average"));
+                        String standard = "Desvio Padrão: " + String.format("%.2f", ideb.getDouble("ideb_standard_deviation"));
+                        String variance = "Variância: " + String.format("%.4f", ideb.getDouble("ideb_variance"));
+
+                        averageView.setText(average);
+                        standardView.setText(standard);
+                        varianceView.setText(variance);
+
                         PlotterManager manager = new PlotterManager( graph, dataToPlot);
 
                         if (manager.plotSimpleBarGraph(ideb.getJSONArray("ideb_years"))) {
                             graph.setVisibility(View.VISIBLE);
                             tabsStrip.setVisibility(View.VISIBLE);
                             graphDescription.setVisibility(View.VISIBLE);
+                            averageView.setVisibility(View.VISIBLE);
+                            standardView.setVisibility(View.VISIBLE);
+                            varianceView.setVisibility(View.VISIBLE);
                             focusOnView();
                         }
+                    }else{
+                        graph.setVisibility(View.VISIBLE);
+                        tabsStrip.setVisibility(View.VISIBLE);
+                        graphDescription.setText("Desculpe, mais não temo esse dado disponível.");
+                        graphDescription.setVisibility(View.VISIBLE);
+                        focusOnView();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -271,21 +292,33 @@ public class ReportFragment extends Fragment {
                 int initialXYear = 0;
                 try {
                     if(rates.getString("status").equals("available")){
+                        String average = "Média: ";
+                        String standard = "Desvio Padrão: ";
+                        String variance = "Variância: ";
                         try {
                             switch (graphOptionSelected) {
                                 case 1:
                                     dataToPlot = rates.getJSONArray("evasion");
                                     graphDescription.setText(R.string.evasion_description);
+                                    average += String.format("%.2f",rates.getDouble("evasion_average"));
+                                    standard += String.format("%.2f",rates.getDouble("evasion_standard_deviation"));
+                                    variance += String.format("%.2f",rates.getDouble("evasion_variance"));
 
                                     break;
                                 case 2:
                                     dataToPlot = rates.getJSONArray("performance");
                                     graphDescription.setText(R.string.performance_description);
+                                    average += String.format("%.2f",rates.getDouble("performance_average"));
+                                    standard += String.format("%.2f", rates.getDouble("performance_standard_deviation"));
+                                    variance += String.format("%.2f",rates.getDouble("performance_variance"));
 
                                     break;
                                 case 3:
                                     dataToPlot = rates.getJSONArray("distortion");
                                     graphDescription.setText(R.string.distortion_description);
+                                    average += String.format("%.2f",rates.getDouble("distortion_average"));
+                                    standard += String.format("%.2f", rates.getDouble("distortion_standard_deviation"));
+                                    variance += String.format("%.2f",rates.getDouble("distortion_variance"));
 
                                     break;
                                 default:
@@ -298,10 +331,17 @@ public class ReportFragment extends Fragment {
                         }
                         PlotterManager manager = new PlotterManager( graph, dataToPlot);
 
+                        averageView.setText(average);
+                        standardView.setText(standard);
+                        varianceView.setText(variance);
+
                         if (manager.plotSimpleLineGraph(initialXYear)) {
                             graph.setVisibility(View.VISIBLE);
                             tabsStrip.setVisibility(View.VISIBLE);
                             graphDescription.setVisibility(View.VISIBLE);
+                            averageView.setVisibility(View.VISIBLE);
+                            standardView.setVisibility(View.VISIBLE);
+                            varianceView.setVisibility(View.VISIBLE);
                             focusOnView();
                         }
                     }
