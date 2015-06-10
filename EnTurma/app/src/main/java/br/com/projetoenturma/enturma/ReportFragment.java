@@ -252,40 +252,57 @@ public class ReportFragment extends Fragment {
             if (graphOptionSelected == 0){
                 JSONObject ideb = data.optJSONObject("ideb");
                 try {
-                    if (ideb.getString("status").equals("available")){
+                    if (ideb.getString("status").equals("available")) {
                         dataToPlot = ideb.getJSONArray("ideb");
                         graphDescription.setText(R.string.ideb_description);
 
-                        String average = "" + String.format("%.2f",ideb.getDouble("ideb_average"));
+                        String average = "" + String.format("%.2f", ideb.getDouble("ideb_average"));
                         String standard = "" + String.format("%.2f", ideb.getDouble("ideb_standard_deviation"));
                         String variance = "" + String.format("%.4f", ideb.getDouble("ideb_variance"));
 
                         averageView.setText(average + "pts ");
-                        standardView.setText(standard+ "pts ");
-                        varianceView.setText(variance+ "pts " );
+                        standardView.setText(standard + "pts ");
+                        varianceView.setText(variance + "pts ");
 
-                        PlotterManager manager = new PlotterManager( graph, dataToPlot);
+                        PlotterManager manager = new PlotterManager(graph, dataToPlot);
+                        if (ideb.getJSONArray("ideb_years").length() > 1) {
 
-                        if (manager.plotSimpleBarGraph(ideb.getJSONArray("ideb_years"),Color.BLUE)) {
-                            graph.setVisibility(View.VISIBLE);
-                            tabsStrip.setVisibility(View.VISIBLE);
-                            graphDescription.setVisibility(View.VISIBLE);
-                            averageView.setVisibility(View.VISIBLE);
-                            standardView.setVisibility(View.VISIBLE);
-                            varianceView.setVisibility(View.VISIBLE);
-                            textVariance.setVisibility(View.VISIBLE);
-                            textAverage.setVisibility(View.VISIBLE);
-                            textStandard.setVisibility(View.VISIBLE);
-                            focusOnView();
+                            if (manager.plotSimpleLineGraphIDEB(ideb.getJSONArray("ideb_years"), Color.BLUE)) {
+                                graph.setVisibility(View.VISIBLE);
+                                tabsStrip.setVisibility(View.VISIBLE);
+                                graphDescription.setVisibility(View.VISIBLE);
+                                averageView.setVisibility(View.VISIBLE);
+                                standardView.setVisibility(View.VISIBLE);
+                                varianceView.setVisibility(View.VISIBLE);
+                                textVariance.setVisibility(View.VISIBLE);
+                                textAverage.setVisibility(View.VISIBLE);
+                                textStandard.setVisibility(View.VISIBLE);
+                                focusOnView();
+                            }
+                        } else {
+                            if (manager.plotBarsGraph(ideb.getJSONArray("ideb_years"), Color.BLUE)) {
+                                graph.setVisibility(View.VISIBLE);
+                                tabsStrip.setVisibility(View.VISIBLE);
+                                graphDescription.setVisibility(View.VISIBLE);
+                                averageView.setVisibility(View.VISIBLE);
+                                standardView.setVisibility(View.VISIBLE);
+                                varianceView.setVisibility(View.VISIBLE);
+                                textVariance.setVisibility(View.VISIBLE);
+                                textAverage.setVisibility(View.VISIBLE);
+                                textStandard.setVisibility(View.VISIBLE);
+                                focusOnView();
+
+                            } else {
+                                graph.setVisibility(View.VISIBLE);
+                                tabsStrip.setVisibility(View.VISIBLE);
+                                graphDescription.setText("Desculpe, mais não temo esse dado disponível.");
+                                graphDescription.setVisibility(View.VISIBLE);
+                                focusOnView();
+                            }
+
                         }
-                    }else{
-                        graph.setVisibility(View.VISIBLE);
-                        tabsStrip.setVisibility(View.VISIBLE);
-                        graphDescription.setText("Desculpe, mais não temo esse dado disponível.");
-                        graphDescription.setVisibility(View.VISIBLE);
-                        focusOnView();
                     }
-                } catch (JSONException e) {
+                }catch (JSONException e) {
                     e.printStackTrace();
                 }
 

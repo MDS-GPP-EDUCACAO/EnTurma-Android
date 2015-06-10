@@ -27,6 +27,12 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Primeira Turma:"
+                            android:textColor="#0000FF"/>
+
                         <Spinner
                             android:id="@+id/first_year"
                             android:layout_width="wrap_content"
@@ -34,10 +40,11 @@
                             android:background="@android:drawable/btn_dropdown"
                             android:spinnerMode="dropdown"
                             android:entries="@array/years_array"
-                            android:prompt="@string/years_prompt"
+                            android:prompt="Ano"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
-                            android:layout_marginTop="16dp"/>
+                            android:layout_marginTop="16dp"
+                            android:layout_gravity="center"/>
                         <Spinner
                             android:id="@+id/first_state"
                             android:layout_width="wrap_content"
@@ -96,6 +103,12 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_alignParentRight="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Segunda Turma:"
+                            android:textColor="#FF0000"/>
 
                         <Spinner
                             android:id="@+id/second_year"

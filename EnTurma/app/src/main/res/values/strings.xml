@@ -34,6 +34,7 @@
 
     <string name="states_prompt">Escolha um Estado</string>
     <string-array name="states_array">
+        <item>AC</item>
         <item>AL</item>
         <item>AP</item>
         <item>AM</item>

@@ -112,6 +112,7 @@ public class CompareFragment extends Fragment {
         activityIdicator.setCancelable(false);
 
 
+
         graph = (GraphView) getView().findViewById(R.id.graph);
         setupTabPageViewer();
 
@@ -136,7 +137,6 @@ public class CompareFragment extends Fragment {
         tabsStrip = (PagerSlidingTabStrip) getView().findViewById(R.id.tabs);
         // Attach the view pager to the tab strip
         tabsStrip.setViewPager(viewPager);
-        graphDescription.setText("Plotar IDEB ");
 
 
         tabsStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -145,8 +145,8 @@ public class CompareFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 graph.removeAllSeries();
-                plotData(reportResponse.optJSONObject("first_report"),position, Color.BLUE);
-                plotData(reportResponse.optJSONObject("second_report"),position, Color.RED);
+                plotData(reportResponse.optJSONObject("first_report"), position, Color.BLUE);
+                plotData(reportResponse.optJSONObject("second_report"), position, Color.RED);
             }
 
             // This method will be invoked when the current page is scrolled
@@ -161,7 +161,13 @@ public class CompareFragment extends Fragment {
             public void onPageScrollStateChanged(int state) {
                 // Code goes here
             }
+
+
         });
+
+        graph.setVisibility(View.INVISIBLE);
+        tabsStrip.setVisibility(View.INVISIBLE);
+        graphDescription.setVisibility(View.INVISIBLE);
 
     }
 
@@ -274,7 +280,7 @@ public class CompareFragment extends Fragment {
 
                         PlotterManager manager = new PlotterManager( graph, dataToPlot);
 
-                        if (manager.plotSimpleBarGraph(ideb.getJSONArray("ideb_years"),color)) {
+                        if (manager.plotPointGraph(ideb.getJSONArray("ideb_years"),color)) {
                             graph.setVisibility(View.VISIBLE);
                             tabsStrip.setVisibility(View.VISIBLE);
                             graphDescription.setVisibility(View.VISIBLE);
@@ -369,7 +375,7 @@ public class CompareFragment extends Fragment {
                     }else{
                         graph.setVisibility(View.VISIBLE);
                         tabsStrip.setVisibility(View.VISIBLE);
-                        graphDescription.setText("Desculpe, mais não temos este dado disponível.");
+                        graphDescription.setText("Desculpe, não temos este dado disponível.");
                         graphDescription.setVisibility(View.VISIBLE);
                         focusOnView();
                     }
