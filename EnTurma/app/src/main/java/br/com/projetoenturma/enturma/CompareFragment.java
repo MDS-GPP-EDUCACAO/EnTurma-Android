@@ -41,7 +41,7 @@ public class CompareFragment extends Fragment {
     Spinner gradeSpinner;
     Button requestButton;
     ProgressDialog activityIdicator;
-    TextView graphTitle;
+    TextView graphTitle, publicTypeText;
     PagerSlidingTabStrip tabsStrip;
     ViewPager viewPager;
     GraphView graph;
@@ -92,6 +92,7 @@ public class CompareFragment extends Fragment {
         firstStateSpinner = (Spinner) getView().findViewById(R.id.first_state);
         firstNetworkSpinner = (Spinner) getView().findViewById(R.id.first_network);
         firstPublicTypeSpinner = (Spinner) getView().findViewById(R.id.first_public_type);
+        publicTypeText = (TextView) getView().findViewById(R.id.text_type);
         firstLocalSpinner = (Spinner) getView().findViewById(R.id.first_local);
 
         secondYearSpinner = (Spinner) getView().findViewById(R.id.second_year);
@@ -108,7 +109,7 @@ public class CompareFragment extends Fragment {
         setupActions();
 
         activityIdicator = new ProgressDialog(getActivity());
-        activityIdicator.setMessage("Procurando pelo relatório");
+        activityIdicator.setMessage("Gerando relatório");
         activityIdicator.setCancelable(false);
 
 
@@ -199,8 +200,10 @@ public class CompareFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (entry.getSelectedItem().toString().equals(value)) {
                     show.setVisibility(View.VISIBLE);
+                    publicTypeText.setVisibility(View.VISIBLE);
                 } else {
                     show.setVisibility(View.INVISIBLE);
+                    publicTypeText.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -298,7 +301,7 @@ public class CompareFragment extends Fragment {
                     }else{
                         graph.setVisibility(View.VISIBLE);
                         tabsStrip.setVisibility(View.VISIBLE);
-                        graphDescription.setText("Desculpe, mais não temo esse dado disponível.");
+                        graphDescription.setText("Desculpe, dado não disponível.");
                         graphDescription.setVisibility(View.VISIBLE);
                         focusOnView();
                     }
@@ -375,7 +378,7 @@ public class CompareFragment extends Fragment {
                     }else{
                         graph.setVisibility(View.VISIBLE);
                         tabsStrip.setVisibility(View.VISIBLE);
-                        graphDescription.setText("Desculpe, não temos este dado disponível.");
+                        graphDescription.setText("Desculpe, não disponível.");
                         graphDescription.setVisibility(View.VISIBLE);
                         focusOnView();
                     }

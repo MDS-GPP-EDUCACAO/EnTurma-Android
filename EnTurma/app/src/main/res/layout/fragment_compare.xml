@@ -18,20 +18,100 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="65dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Primeira Turma:"
+                        android:textColor="#0000FF"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Segunda Turma:"
+                        android:layout_marginLeft="65dp"
+                        android:textColor="#FF0000"/>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_width="30dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/text_year"
+                            android:text="Ano de inicio"
+                            android:layout_marginTop="16dp"
+                            android:layout_width="24dp"
                             android:layout_height="wrap_content"
-                            android:text="Primeira Turma:"
-                            android:textColor="#0000FF"/>
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="10dp"
+                            android:width="50sp"/>
+
+                        <TextView
+                            android:id="@+id/text_state"
+                            android:text="Estado"
+                            android:layout_marginTop="40dp"
+                            android:layout_width="41dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="10dp"
+                            android:width="50sp"/>
+
+                        <TextView
+                            android:id="@+id/text_local"
+                            android:text="Local"
+                            android:layout_width="30dp"
+                            android:layout_marginTop="40dp"
+                            android:layout_height="41dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="10dp"
+                            android:width="50sp"/>
+
+                        <TextView
+                            android:id="@+id/text_network"
+                            android:text="Rede"
+                            android:layout_marginTop="20dp"
+                            android:layout_width="28dp"
+                            android:layout_height="41dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="10dp"
+                            android:width="50sp"/>
+
+                        <TextView
+                            android:id="@+id/text_type"
+                            android:text="Fonte"
+                            android:layout_marginTop="30dp"
+                            android:layout_width="28dp"
+                            android:layout_height="41dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:visibility="invisible"
+                            android:textSize="10dp"
+                            android:width="50sp"/>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <Spinner
                             android:id="@+id/first_year"
@@ -43,8 +123,7 @@
                             android:prompt="@string/years_prompt"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_gravity="center"/>
+                            android:layout_marginTop="16dp"/>
                         <Spinner
                             android:id="@+id/first_state"
                             android:layout_width="wrap_content"
@@ -104,12 +183,6 @@
                         android:orientation="vertical"
                         android:layout_alignParentRight="true">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Segunda Turma:"
-                            android:textColor="#FF0000"/>
-
                         <Spinner
                             android:id="@+id/second_year"
                             android:layout_width="wrap_content"
@@ -118,7 +191,6 @@
                             android:spinnerMode="dropdown"
                             android:entries="@array/years_array"
                             android:prompt="@string/years_prompt"
-                            android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
                             android:layout_marginTop="16dp"
                             android:layout_alignParentRight="true"/>
@@ -130,7 +202,6 @@
                             android:spinnerMode="dropdown"
                             android:entries="@array/states_array"
                             android:prompt="@string/states_prompt"
-                            android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
                             android:layout_marginTop="16dp"
                             android:layout_alignParentRight="true" />
@@ -144,7 +215,6 @@
                             android:spinnerMode="dropdown"
                             android:entries="@array/locals_array"
                             android:prompt="@string/local_prompt"
-                            android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
                             android:layout_marginTop="16dp"/>
 
@@ -156,7 +226,6 @@
                             android:spinnerMode="dropdown"
                             android:entries="@array/network_array"
                             android:prompt="@string/network_prompt"
-                            android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
                             android:layout_marginTop="16dp"
                             />
@@ -170,25 +239,38 @@
                             android:entries="@array/public_type_array"
                             android:prompt="@string/public_type_prompt"
                             android:visibility="invisible"
-                            android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
                             android:layout_marginTop="16dp"/>
                     </LinearLayout>
 
                 </LinearLayout>
 
-                <Spinner
-                    android:id="@+id/grade"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/btn_dropdown"
-                    android:spinnerMode="dropdown"
-                    android:entries="@array/grades_array"
-                    android:prompt="@string/grade_prompt"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center">
+
+                    <TextView
+                        android:id="@+id/text_grade"
+                        android:text="Turma"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:textSize="10dp"
+                        android:width="50sp"/>
+
+                    <Spinner
+                        android:id="@+id/grade"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:drawable/btn_dropdown"
+                        android:spinnerMode="dropdown"
+                        android:entries="@array/grades_array"
+                        android:prompt="@string/grade_prompt"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center"/>
+
+                </LinearLayout>
 
                 <Button
                     android:layout_width="140dp"

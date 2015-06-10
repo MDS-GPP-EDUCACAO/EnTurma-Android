@@ -44,7 +44,7 @@ public class ReportFragment extends Fragment {
     ProgressDialog activityIdicator;
     PagerSlidingTabStrip tabsStrip;
     ViewPager viewPager;
-    TextView graphDescription,averageView,standardView,varianceView, textStandard, textVariance, textAverage;
+    TextView graphDescription,averageView,standardView,varianceView, textStandard, textVariance, textAverage, textPublicTypeSpinner;
     GraphView graph;
     JSONObject reportResponse;
     ScrollView reportFormScrollView;
@@ -92,6 +92,7 @@ public class ReportFragment extends Fragment {
         gradeSpinner = (Spinner) getView().findViewById(R.id.grade);
         networkSpinner = (Spinner) getView().findViewById(R.id.network);
         publicTypeSpinner = (Spinner) getView().findViewById(R.id.public_type);
+        textPublicTypeSpinner = (TextView) getView().findViewById(R.id.text_type);
         localSpinner = (Spinner) getView().findViewById(R.id.local);
         sendButton = (Button) getView().findViewById(R.id.send_report);
         textVariance = (TextView) getView().findViewById(R.id.text_variance);
@@ -187,8 +188,10 @@ public class ReportFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (networkSpinner.getSelectedItem().toString().equals("Publica")) {
                     publicTypeSpinner.setVisibility(View.VISIBLE);
+                    textPublicTypeSpinner.setVisibility(View.VISIBLE);
                 } else {
                     publicTypeSpinner.setVisibility(View.INVISIBLE);
+                    textPublicTypeSpinner.setVisibility(View.INVISIBLE);
                 }
             }
 
