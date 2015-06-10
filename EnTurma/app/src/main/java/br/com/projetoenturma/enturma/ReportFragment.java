@@ -103,7 +103,7 @@ public class ReportFragment extends Fragment {
         setupActions();
 
         activityIdicator = new ProgressDialog(getActivity());
-        activityIdicator.setMessage("Procurando pelo relatório");
+        activityIdicator.setMessage("Gerando relatório");
         activityIdicator.setCancelable(false);
 
 
@@ -221,7 +221,7 @@ public class ReportFragment extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 activityIdicator.dismiss();
-                Toast.makeText(getActivity().getApplicationContext(), "Sucesso!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Pronto!", Toast.LENGTH_LONG).show();
                 //plot graph with response object
                 try {
                     reportResponse = new JSONObject(response.toString());
