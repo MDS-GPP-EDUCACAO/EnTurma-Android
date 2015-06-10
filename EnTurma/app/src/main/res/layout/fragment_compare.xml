@@ -40,7 +40,7 @@
                             android:background="@android:drawable/btn_dropdown"
                             android:spinnerMode="dropdown"
                             android:entries="@array/years_array"
-                            android:prompt="Ano"
+                            android:prompt="@string/years_prompt"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
                             android:layout_marginTop="16dp"
