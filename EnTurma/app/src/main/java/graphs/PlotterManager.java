@@ -1,0 +1,191 @@
+package graphs;
+
+
+import android.graphics.Color;
+import android.util.Log;
+
+import com.jjoe64.graphview.DefaultLabelFormatter;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.PointsGraphSeries;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.lang.reflect.Array;
+import java.util.Date;
+import java.util.Timer;
+
+public class PlotterManager {
+
+    private int initialXYear;
+    private GraphView graphToPlot;
+    private JSONArray dataToPlot;
+
+
+    public PlotterManager( GraphView graphToPlot, JSONArray dataToPlot){
+        this.graphToPlot = graphToPlot;
+        this.dataToPlot = dataToPlot;
+    }
+
+    public boolean plotSimpleLineGraph(int initialXYear, int color){
+        JSONArray currentDataToPlot = this.dataToPlot;
+        DataPoint[] currentDataPoint = new DataPoint[currentDataToPlot.length()];
+        for (int j = 0; j <currentDataToPlot.length(); j++) {
+            try {
+                Number dataY = (Number)currentDataToPlot.get(j);
+
+                currentDataPoint[j] = new DataPoint((double)initialXYear+j,dataY.doubleValue());
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        LineGraphSeries<DataPoint> currentSerie = new LineGraphSeries<DataPoint>(currentDataPoint);
+        this.graphToPlot.addSeries(currentSerie);
+        currentSerie.setThickness(8);
+        currentSerie.setDataPointsRadius(4);
+        currentSerie.setDrawBackground(true);
+
+        currentSerie.setColor(color);
+        this.graphToPlot.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+             @Override
+             public String formatLabel(double value, boolean isValueX) {
+                 if (isValueX) {
+                     // show normal x values
+                     String year = Double.toString(value);
+                     String yearFixed = "";
+                     if (year.length() >= 4) {
+                         yearFixed = year.substring(0, 4);
+                     }
+                     return yearFixed;
+                 } else {
+                     // show currency for y values
+                     return super.formatLabel(value, isValueX) + "%";
+                 }
+             }
+        });
+
+
+        return true;
+    }
+
+    public boolean plotSimpleLineGraphIDEB(JSONArray idebYears,int color){
+        JSONArray currentDataToPlot = this.dataToPlot;
+        DataPoint[] currentDataPoint = new DataPoint[currentDataToPlot.length()];
+        for (int i = 0; i < currentDataPoint.length; i++) {
+            try {
+                Number dataY = (Number) currentDataToPlot.get(i);
+                Double dataX = Double.parseDouble(idebYears.getString(i));
+                currentDataPoint[i] = new DataPoint(dataX, dataY.doubleValue());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        LineGraphSeries<DataPoint> currentSerie = new LineGraphSeries<DataPoint>(currentDataPoint);
+        this.graphToPlot.addSeries(currentSerie);
+        currentSerie.setColor(color);
+
+        this.graphToPlot.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if (isValueX) {
+                    // show normal x values
+                    String year = Double.toString(value);
+                    String yearFixed = "";
+                    if (year.length() >= 4) {
+                        yearFixed = year.substring(0, 4);
+                    }
+                    return yearFixed;
+                } else {
+                    // show currency for y values
+                    return super.formatLabel(value, isValueX) + " pts";
+                }
+            }
+        });
+
+        return true;
+    }
+
+    public boolean plotPointGraph(JSONArray idebYears,int color){
+        JSONArray currentDataToPlot = this.dataToPlot;
+        DataPoint[] currentDataPoint = new DataPoint[currentDataToPlot.length()];
+        for (int i = 0; i < currentDataPoint.length; i++) {
+            try {
+                Number dataY = (Number) currentDataToPlot.get(i);
+                Double dataX = Double.parseDouble(idebYears.getString(i));
+                currentDataPoint[i] = new DataPoint(dataX, dataY.doubleValue());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        PointsGraphSeries<DataPoint> currentSerie = new PointsGraphSeries<DataPoint>(currentDataPoint);
+        this.graphToPlot.addSeries(currentSerie);
+        currentSerie.setColor(color);
+
+        this.graphToPlot.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if (isValueX) {
+                    // show normal x values
+                    String year = Double.toString(value);
+                    String yearFixed = "";
+                    if (year.length() >= 4) {
+                        yearFixed = year.substring(0, 4);
+                    }
+                    return yearFixed;
+                } else {
+                    // show currency for y values
+                    return super.formatLabel(value, isValueX) + " pts";
+                }
+            }
+        });
+
+        return true;
+    }
+
+    public boolean plotBarsGraph(JSONArray idebYears,int color){
+        JSONArray currentDataToPlot = this.dataToPlot;
+        DataPoint[] currentDataPoint = new DataPoint[currentDataToPlot.length()];
+        for (int i = 0; i < currentDataPoint.length; i++) {
+            try {
+                Number dataY = (Number) currentDataToPlot.get(i);
+                Double dataX = Double.parseDouble(idebYears.getString(i));
+                currentDataPoint[i] = new DataPoint(dataX, dataY.doubleValue());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        BarGraphSeries<DataPoint> currentSerie = new BarGraphSeries<DataPoint>(currentDataPoint);
+        this.graphToPlot.addSeries(currentSerie);
+        currentSerie.setColor(color);
+        currentSerie.setSpacing(50);
+
+        this.graphToPlot.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if (isValueX) {
+                    // show normal x values
+                    String year = Double.toString(value);
+                    String yearFixed = "";
+                    if (year.length() >= 4) {
+                        yearFixed = year.substring(0, 4);
+                    }
+                    return yearFixed;
+                } else {
+                    // show currency for y values
+                    return super.formatLabel(value, isValueX) + " pts";
+                }
+            }
+        });
+
+        return true;
+    }
+
+
+}
