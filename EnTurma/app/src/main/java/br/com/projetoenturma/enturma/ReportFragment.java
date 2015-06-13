@@ -369,7 +369,7 @@ public class ReportFragment extends Fragment {
                     }else{
                         graph.setVisibility(View.VISIBLE);
                         tabsStrip.setVisibility(View.VISIBLE);
-                        graphDescription.setText("Desculpe, mais não temo esse dado disponível.");
+                        graphDescription.setText("Desculpe, dado disponível.");
                         graphDescription.setVisibility(View.VISIBLE);
                         focusOnView();
                     }
