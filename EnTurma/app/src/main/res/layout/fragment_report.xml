@@ -21,17 +21,18 @@
                     <TextView
                         android:id="@+id/text_year"
                         android:text="Ano de inicio"
-                        android:layout_width="70dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textSize="10dp"
+                        android:gravity="left"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="15dp"
                         android:width="50sp"
                         android:layout_marginTop="10dp"/>
 
                     <Spinner
                         android:id="@+id/year"
-                        android:layout_width="140dp"
+                        android:layout_width="fill_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:layout_height="wrap_content"
@@ -39,22 +40,22 @@
                         android:spinnerMode="dropdown"
                         android:entries="@array/years_array"
                         android:prompt="@string/years_prompt"
-                        android:textAlignment="gravity"/>
+                        android:textAlignment="center" />
 
                     <TextView
                         android:id="@+id/text_state"
                         android:text="Estado"
-                        android:layout_width="41dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textSize="10dp"
+                        android:gravity="left"
+                        android:textSize="15dp"
                         android:width="50sp"
                         android:layout_marginTop="10dp"/>
 
                     <Spinner
                         android:id="@+id/state"
-                        android:layout_width="140dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:drawable/btn_dropdown"
                         android:spinnerMode="dropdown"
@@ -67,17 +68,17 @@
                     <TextView
                         android:id="@+id/text_grade"
                         android:text="Turma"
-                        android:layout_width="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textSize="10dp"
+                        android:gravity="left"
+                        android:textSize="15dp"
                         android:width="50sp"
                         android:layout_marginTop="10dp"/>
 
                     <Spinner
                         android:id="@+id/grade"
-                        android:layout_width="140dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:drawable/btn_dropdown"
                         android:spinnerMode="dropdown"
@@ -89,17 +90,17 @@
                     <TextView
                         android:id="@+id/text_local"
                         android:text="Local"
-                        android:layout_width="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textSize="10dp"
+                        android:gravity="left"
+                        android:textSize="15dp"
                         android:width="50sp"
                         android:layout_marginTop="10dp"/>
 
                     <Spinner
                         android:id="@+id/local"
-                        android:layout_width="140dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -111,17 +112,17 @@
                     <TextView
                         android:id="@+id/text_network"
                         android:text="Rede"
-                        android:layout_width="28dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textSize="10dp"
+                        android:gravity="left"
+                        android:textSize="15dp"
                         android:width="50sp"
                         android:layout_marginTop="10dp"/>
 
                     <Spinner
                         android:id="@+id/network"
-                        android:layout_width="140dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:drawable/btn_dropdown"
                         android:spinnerMode="dropdown"
@@ -134,18 +135,18 @@
                     <TextView
                         android:id="@+id/text_type"
                         android:text="Fonte"
-                        android:layout_width="28dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        android:gravity="left"
+                        android:textSize="15dp"
                         android:visibility="invisible"
-                        android:textSize="10dp"
                         android:width="50sp"
                         android:layout_marginTop="10dp"/>
 
                     <Spinner
                         android:id="@+id/public_type"
-                        android:layout_width="140dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:drawable/btn_dropdown"
                         android:spinnerMode="dropdown"
@@ -156,13 +157,15 @@
                         android:visibility="invisible" />
 
 
-                <Button
-                    android:layout_width="140dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
-                    android:id="@+id/send_report"
-                    android:text="Gerar" />
+                    <Button
 
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="#428bca"
+                        android:id="@+id/send_report"
+                        android:text="Gerar"
+                        android:textColor="#FFFFFF"/>
 
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
