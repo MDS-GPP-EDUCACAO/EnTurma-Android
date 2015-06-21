@@ -171,7 +171,7 @@ public class ReportFragment extends Fragment {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                reportFormScrollView.scrollTo(0, viewPager.getBottom()+100);
+                reportFormScrollView.scrollTo(0, viewPager.getBottom()+500);
             }
         });
     }

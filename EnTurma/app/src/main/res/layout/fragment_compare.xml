@@ -434,6 +434,8 @@
                     android:layout_height="match_parent"
                     android:text="Ideb"
                     android:id="@+id/graph_description"
+                    android:gravity="center"
+                    android:textAlignment="center"
                     />
 
 
