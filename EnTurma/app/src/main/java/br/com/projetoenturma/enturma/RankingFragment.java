@@ -1,11 +1,14 @@
 package br.com.projetoenturma.enturma;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import customAdapters.RankingAdapter;
 
 /**
  * Created by PedroSales on 13/06/15.
@@ -14,7 +17,7 @@ public class RankingFragment extends Fragment{
 
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-
+    private ListView rankingListView;
 
     public static RankingFragment newInstance(int sectionNumber) {
         RankingFragment fragment = new RankingFragment();
@@ -39,5 +42,15 @@ public class RankingFragment extends Fragment{
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(
                 getArguments().getInt(ARG_SECTION_NUMBER));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        this.rankingListView = (ListView) getView().findViewById(R.id.ranking_list_view);
+        String[] data = {"Tst1","Tst2","Tst3","Tst4","Tst5"};
+
+        this.rankingListView.setAdapter(new RankingAdapter(getActivity().getApplicationContext(), data));
     }
 }
