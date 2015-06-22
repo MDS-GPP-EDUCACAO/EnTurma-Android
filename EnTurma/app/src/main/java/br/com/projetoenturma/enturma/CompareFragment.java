@@ -116,8 +116,6 @@ public class CompareFragment extends Fragment {
 
         graph = (GraphView) getView().findViewById(R.id.graph);
         setupTabPageViewer();
-
-
     }
 
     private void setupTabPageViewer(){

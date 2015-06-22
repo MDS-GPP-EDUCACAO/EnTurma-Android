@@ -14,7 +14,7 @@ public class RESTFull {
 
     //change "192.168.0.14" to the ip of your machine
     //in production mode put url
-    private static final String URL_BASE = "http://www.projetoenturma.com.br/";
+    private static final String URL_BASE = "http://10.11.38.233:3000/";
     private Map<String, String> params;
 
     public RESTFull(Map params){
@@ -39,19 +39,19 @@ public class RESTFull {
 
     public void requestReport(JsonHttpResponseHandler handler){
         String requestUrl = URL_BASE + "report/request_report.json" + encodeParamsToUrlRequest();
-
         AsyncHttpClient client = new AsyncHttpClient();
-
         client.get(requestUrl, handler);
+    }
+
+    public void requestRanking(JsonHttpResponseHandler handler){
+        String requestUrl = URL_BASE + "ranking/request_ranking.json" + encodeParamsToUrlRequest();
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(requestUrl,handler);
     }
 
     public  void requestCompareReport(JsonHttpResponseHandler handler){
         String requestUrl = URL_BASE + "compare_reports/request_comparation.json" + encodeParamsToUrlRequest();
-
         AsyncHttpClient client = new AsyncHttpClient();
-
-        System.out.println(requestUrl);
-
         client.get(requestUrl, handler);
     }
 
