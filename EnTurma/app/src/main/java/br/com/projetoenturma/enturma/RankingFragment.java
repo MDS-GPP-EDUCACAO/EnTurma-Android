@@ -42,6 +42,7 @@ public class RankingFragment extends Fragment{
     private ListView rankingListView;
     private Button requestButton;
     private Spinner year,grade;
+    private boolean exceptionFlag;
     private ViewPager viewPager;
     private PagerSlidingTabStrip tabsStrip;
     private Map<String, List<Map<String, String>>> allRankedStates;
@@ -116,6 +117,15 @@ public class RankingFragment extends Fragment{
 
                 System.out.println("Pager" + position);
                 showTableViewAtKey(KEYS[position]);
+                if(position != 0){
+                    setExceptionIdeb(false);
+                } else {
+                    if (exceptionFlag){
+                        setExceptionIdeb(true);
+                    }else {
+                        setExceptionIdeb(false);
+                    }
+                }
             }
 
             // This method will be invoked when the current page is scrolled
@@ -188,6 +198,11 @@ public class RankingFragment extends Fragment{
 
         if (ideb.getString("status").equals("avaliable")){
             idebParsed = this.serializeDataToMap(ideb.getJSONArray("ideb"),"score");
+            exceptionFlag = false;
+            setExceptionIdeb(false);
+        } else {
+            exceptionFlag = true;
+            setExceptionIdeb(true);
         }
 
         allRankedStates = new HashMap<>();
@@ -217,5 +232,16 @@ public class RankingFragment extends Fragment{
     public String getStateFromID(int id){
         String[] states = {"AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"};
         return states[id-1];
+    }
+
+    public void setExceptionIdeb(boolean status){
+
+        TextView textIdeb = (TextView) getView().findViewById(R.id.textIdeb);
+
+        if(status){
+            textIdeb.setVisibility(View.VISIBLE);
+        } else {
+            textIdeb.setVisibility(View.INVISIBLE);
+        }
     }
 }
