@@ -78,7 +78,15 @@ public class RankingAdapter extends BaseAdapter {
         Map<String,String> currentCellData = data.get(position);
 
         state.setText(currentCellData.get("stateName"));
-        score.setText(currentCellData.get("stateScore"));
+        if (!currentCellData.get("graphType").equalsIgnoreCase("score")){
+
+            score.setText(currentCellData.get("stateScore")+"%");
+
+        }else{
+
+            score.setText(currentCellData.get("stateScore")+" pontos");
+
+        }
 
         return cell;
     }

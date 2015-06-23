@@ -232,6 +232,7 @@ public class RankingFragment extends Fragment{
             Map<String,String> currentParsedData = new HashMap<>();
             currentParsedData.put("stateName",this.getStateFromID(currentObject.getInt("state_id")));
             currentParsedData.put("stateScore", Double.toString(currentObject.getDouble(key)));
+            currentParsedData.put("graphType",key);
             parsedData.add(currentParsedData);
         }
 
