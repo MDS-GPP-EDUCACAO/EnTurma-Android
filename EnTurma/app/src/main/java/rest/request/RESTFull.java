@@ -14,7 +14,7 @@ public class RESTFull {
 
     //change "192.168.0.14" to the ip of your machine
     //in production mode put url
-    private static final String URL_BASE = "http://www.projetoenturma.com.br/";
+    private static final String URL_BASE = "http://172.20.10.2:3000/";
     private Map<String, String> params;
 
     public RESTFull(Map params){
