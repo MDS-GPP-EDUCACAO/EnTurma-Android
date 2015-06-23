@@ -3,6 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ano"
+        android:textSize="16dp"/>
+
     <Spinner
         android:id="@+id/year"
         android:layout_width="fill_parent"
@@ -15,6 +21,12 @@
         android:prompt="@string/years_prompt"
         android:textAlignment="center"
         android:paddingTop="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Turma"
+        android:textSize="16dp"/>
 
     <Spinner
         android:id="@+id/grade"
@@ -33,39 +45,51 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:background="#428bca"
-        android:id="@+id/request_ranking"
+        android:id="@+id/ranking_request"
         android:text="Gerar"
         android:textColor="#FFFFFF"/>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
         <com.astuetz.PagerSlidingTabStrip
-            android:id="@+id/tabs"
-            app:pstsShouldExpand="true"
-            app:pstsTextAllCaps="true"
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
+        android:id="@+id/tabs"
+        app:pstsShouldExpand="true"
+        app:pstsTextAllCaps="true"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
         </com.astuetz.PagerSlidingTabStrip>
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white" />
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+         />
 
         <ListView
             android:id="@+id/ranking_list_view"
             android:layout_width="match_parent"
-            android:layout_height="390dp"
-            android:paddingTop="30dp"
+            android:layout_height="wrap_content"
             android:visibility="invisible"
             >
         </ListView>
+
+        <TextView
+            android:id="@+id/textIdeb"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:textSize="20dp"
+            android:text="Neste ano não houve aplicação do IDEB"
+            android:visibility="invisible"/>
+
     </LinearLayout>
 
 
 </LinearLayout>
+
+

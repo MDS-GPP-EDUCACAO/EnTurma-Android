@@ -2,29 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        >
 
     <TextView
         android:id="@+id/ranking_position"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight=".50"
+        android:gravity="left"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
         android:textColor="@color/accent_material_light"
+        android:textSize="20dp"
         />
 
     <TextView
         android:id="@+id/state"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight=".50"
+        android:gravity="center"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:textColor="@color/accent_material_light"
+        android:textSize="20dp"
+
         />
 
     <TextView
         android:id="@+id/score"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight=".50"
+        android:gravity="right"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
         android:textColor="@color/accent_material_light"
+        android:textSize="20dp"
+
         />
+    </LinearLayout>
 </LinearLayout>

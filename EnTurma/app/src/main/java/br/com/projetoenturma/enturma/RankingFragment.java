@@ -1,6 +1,7 @@
 package br.com.projetoenturma.enturma;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -42,10 +43,12 @@ public class RankingFragment extends Fragment{
     private ListView rankingListView;
     private Button requestButton;
     private Spinner year,grade;
+    ProgressDialog activityIdicator;
+    private boolean exceptionFlag;
     private ViewPager viewPager;
     private PagerSlidingTabStrip tabsStrip;
     private Map<String, List<Map<String, String>>> allRankedStates;
-    private static final String[] KEYS = {"evasion","peformance","distortion","ideb"};
+    private static final String[] KEYS = {"ideb","evasion","peformance","distortion"};
 
     public static RankingFragment newInstance(int sectionNumber) {
         RankingFragment fragment = new RankingFragment();
@@ -77,21 +80,27 @@ public class RankingFragment extends Fragment{
         super.onStart();
 
         this.rankingListView = (ListView) getView().findViewById(R.id.ranking_list_view);
-        this.requestButton = (Button) getView().findViewById(R.id.request_ranking);
+        this.requestButton = (Button) getView().findViewById(R.id.ranking_request);
         this.grade = (Spinner) getView().findViewById(R.id.grade);
         this.year = (Spinner) getView().findViewById(R.id.year);
 
+        activityIdicator = new ProgressDialog(getActivity());
+        activityIdicator.setMessage("Gerando Ranking");
+        activityIdicator.setCancelable(false);
+
         setupActions();
-        setupTabPageViewer();
 
         this.rankingListView.setAdapter(new RankingAdapter(getActivity().getApplicationContext()));
+
+        setupTabPageViewer();
+
 
     }
 
     private void setupActions(){
         this.requestButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("OU");
+
                 requestData();
             }
         });
@@ -114,6 +123,15 @@ public class RankingFragment extends Fragment{
 
                 System.out.println("Pager" + position);
                 showTableViewAtKey(KEYS[position]);
+                if(position != 0){
+                    setExceptionIdeb(false);
+                } else {
+                    if (exceptionFlag){
+                        setExceptionIdeb(true);
+                    }else {
+                        setExceptionIdeb(false);
+                    }
+                }
             }
 
             // This method will be invoked when the current page is scrolled
@@ -132,13 +150,15 @@ public class RankingFragment extends Fragment{
         });
 
         tabsStrip.setVisibility(View.INVISIBLE);
+        rankingListView.setVisibility(View.INVISIBLE);
     }
 
     private void showTableViewAtKey(String key){
         List<Map<String,String>> currentListViewData = allRankedStates.get(key);
         ((RankingAdapter)this.rankingListView.getAdapter()).setData(currentListViewData);
-        ((BaseAdapter)this.rankingListView.getAdapter()).notifyDataSetChanged();
+        ((RankingAdapter)this.rankingListView.getAdapter()).notifyDataSetChanged();
         this.rankingListView.setVisibility(View.VISIBLE);
+        tabsStrip.setVisibility(View.VISIBLE);
     }
 
 
@@ -149,11 +169,13 @@ public class RankingFragment extends Fragment{
 
 
         RESTFull rest = new RESTFull(params);
+        activityIdicator.show();
         rest.requestRanking(new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Toast.makeText(getActivity().getApplicationContext(), R.string.request_success, Toast.LENGTH_LONG).show();
+                activityIdicator.dismiss();
                 //plot graph with response object
                 try {
                     parseJSONToRaking(response);
@@ -164,6 +186,7 @@ public class RankingFragment extends Fragment{
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                activityIdicator.dismiss();
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 Toast.makeText(getActivity().getApplicationContext(), R.string.request_failure, Toast.LENGTH_LONG).show();
                 Log.d("omg android", statusCode + " " + throwable.getMessage());
@@ -184,6 +207,11 @@ public class RankingFragment extends Fragment{
 
         if (ideb.getString("status").equals("avaliable")){
             idebParsed = this.serializeDataToMap(ideb.getJSONArray("ideb"),"score");
+            exceptionFlag = false;
+            setExceptionIdeb(false);
+        } else {
+            exceptionFlag = true;
+            setExceptionIdeb(true);
         }
 
         allRankedStates = new HashMap<>();
@@ -204,6 +232,7 @@ public class RankingFragment extends Fragment{
             Map<String,String> currentParsedData = new HashMap<>();
             currentParsedData.put("stateName",this.getStateFromID(currentObject.getInt("state_id")));
             currentParsedData.put("stateScore", Double.toString(currentObject.getDouble(key)));
+            currentParsedData.put("graphType",key);
             parsedData.add(currentParsedData);
         }
 
@@ -213,5 +242,16 @@ public class RankingFragment extends Fragment{
     public String getStateFromID(int id){
         String[] states = {"AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"};
         return states[id-1];
+    }
+
+    public void setExceptionIdeb(boolean status){
+
+        TextView textIdeb = (TextView) getView().findViewById(R.id.textIdeb);
+
+        if(status){
+            textIdeb.setVisibility(View.VISIBLE);
+        } else {
+            textIdeb.setVisibility(View.INVISIBLE);
+        }
     }
 }

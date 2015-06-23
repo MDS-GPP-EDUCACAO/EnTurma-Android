@@ -1,6 +1,8 @@
 package customAdapters;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,12 +61,32 @@ public class RankingAdapter extends BaseAdapter {
         TextView state = (TextView) cell.findViewById(R.id.state);
         TextView score = (TextView) cell.findViewById(R.id.score);
 
-        rankingPosition.setText(position+1 + "°");
+        rankingPosition.setText(position + 1 + "°");
+
+        if(position == 0){
+            rankingPosition.setTextColor(Color.rgb(255, 204 , 102 ));
+            state.setTextColor(Color.rgb(255, 204, 102));
+            score.setTextColor(Color.rgb(255, 204, 102));
+
+        }else {
+            rankingPosition.setTextColor(Color.BLACK);
+            state.setTextColor(Color.BLACK);
+            score.setTextColor(Color.BLACK);
+        }
+
 
         Map<String,String> currentCellData = data.get(position);
 
         state.setText(currentCellData.get("stateName"));
-        score.setText(currentCellData.get("stateScore"));
+        if (!currentCellData.get("graphType").equalsIgnoreCase("score")){
+
+            score.setText(currentCellData.get("stateScore")+"%");
+
+        }else{
+
+            score.setText(currentCellData.get("stateScore")+" pontos");
+
+        }
 
         return cell;
     }
