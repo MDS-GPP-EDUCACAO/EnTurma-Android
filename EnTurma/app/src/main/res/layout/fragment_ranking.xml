@@ -3,6 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ano"
+        android:textSize="16dp"/>
+
     <Spinner
         android:id="@+id/year"
         android:layout_width="fill_parent"
@@ -15,6 +21,12 @@
         android:prompt="@string/years_prompt"
         android:textAlignment="center"
         android:paddingTop="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Turma"
+        android:textSize="16dp"/>
 
     <Spinner
         android:id="@+id/grade"

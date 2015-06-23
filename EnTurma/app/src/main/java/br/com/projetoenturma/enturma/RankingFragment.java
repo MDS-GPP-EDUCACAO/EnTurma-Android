@@ -100,7 +100,7 @@ public class RankingFragment extends Fragment{
     private void setupActions(){
         this.requestButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("OU");
+
                 requestData();
             }
         });

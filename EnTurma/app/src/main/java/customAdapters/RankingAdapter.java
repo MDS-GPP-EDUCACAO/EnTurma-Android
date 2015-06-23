@@ -67,6 +67,10 @@ public class RankingAdapter extends BaseAdapter {
             rankingPosition.setTextColor(Color.rgb(255, 204 , 102 ));
             state.setTextColor(Color.rgb(255, 204, 102));
             score.setTextColor(Color.rgb(255, 204, 102));
+        } else{
+            rankingPosition.setTextColor(Color.BLACK);
+            state.setTextColor(Color.BLACK);
+            score.setTextColor(Color.BLACK);
         }
 
 
