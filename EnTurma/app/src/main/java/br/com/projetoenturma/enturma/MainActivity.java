@@ -62,7 +62,7 @@ public class MainActivity extends ActionBarActivity
                 fragment = RankingFragment.newInstance(position + 1);
                 break;
             case 4:
-                fragment = PlaceholderFragment.newInstance(position + 1);
+                fragment = ContactFragment.newInstance(position + 1);
                 break;
             default:
                 fragment = PlaceholderFragment.newInstance(position + 1);
