@@ -45,7 +45,7 @@ public class RankingFragment extends Fragment{
     private ViewPager viewPager;
     private PagerSlidingTabStrip tabsStrip;
     private Map<String, List<Map<String, String>>> allRankedStates;
-    private static final String[] KEYS = {"evasion","peformance","distortion","ideb"};
+    private static final String[] KEYS = {"ideb","evasion","peformance","distortion"};
 
     public static RankingFragment newInstance(int sectionNumber) {
         RankingFragment fragment = new RankingFragment();
@@ -77,14 +77,16 @@ public class RankingFragment extends Fragment{
         super.onStart();
 
         this.rankingListView = (ListView) getView().findViewById(R.id.ranking_list_view);
-        this.requestButton = (Button) getView().findViewById(R.id.request_ranking);
+        this.requestButton = (Button) getView().findViewById(R.id.ranking_request);
         this.grade = (Spinner) getView().findViewById(R.id.grade);
         this.year = (Spinner) getView().findViewById(R.id.year);
 
         setupActions();
-        setupTabPageViewer();
 
         this.rankingListView.setAdapter(new RankingAdapter(getActivity().getApplicationContext()));
+
+        setupTabPageViewer();
+
 
     }
 
@@ -132,13 +134,15 @@ public class RankingFragment extends Fragment{
         });
 
         tabsStrip.setVisibility(View.INVISIBLE);
+        rankingListView.setVisibility(View.INVISIBLE);
     }
 
     private void showTableViewAtKey(String key){
         List<Map<String,String>> currentListViewData = allRankedStates.get(key);
         ((RankingAdapter)this.rankingListView.getAdapter()).setData(currentListViewData);
-        ((BaseAdapter)this.rankingListView.getAdapter()).notifyDataSetChanged();
+        ((RankingAdapter)this.rankingListView.getAdapter()).notifyDataSetChanged();
         this.rankingListView.setVisibility(View.VISIBLE);
+        tabsStrip.setVisibility(View.VISIBLE);
     }
 
 
