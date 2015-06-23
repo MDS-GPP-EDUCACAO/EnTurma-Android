@@ -82,16 +82,15 @@ public class ContactFragment extends Fragment {
     }
 
     public void sendContentIntend(){
-        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SENDTO);
-
-        /* Fill it with Data */
-        emailIntent.setType("plain/text");
-        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"to@email.com"});
-        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject");
-        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Text");
-
-        /* Send it off to the Activity-Chooser */
-        getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"contatoenturma@gmail.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, "Sugestões para o EnTurma - Android");
+        i.putExtra(Intent.EXTRA_TEXT   , "x`");
+        try {
+            getActivity().startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getActivity(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
