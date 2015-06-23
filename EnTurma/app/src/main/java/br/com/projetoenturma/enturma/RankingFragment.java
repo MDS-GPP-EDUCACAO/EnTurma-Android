@@ -81,10 +81,23 @@ public class RankingFragment extends Fragment{
         this.grade = (Spinner) getView().findViewById(R.id.grade);
         this.year = (Spinner) getView().findViewById(R.id.year);
 
+        Map<String,String> params = new HashMap();
+        params.put("stateName","DF");
+        params.put("stateScore", "20");
+
+        Map<String,String> params2 = new HashMap();
+        params2.put("stateName","DF2");
+        params2.put("stateScore", "202");
+
+        List<Map<String,String>> dataTest = new ArrayList<Map<String,String>>();
+        dataTest.add(params);
+        dataTest.add(params2);
+
+        this.rankingListView.setAdapter(new RankingAdapter(getActivity().getApplicationContext(), dataTest));
+
         setupActions();
         setupTabPageViewer();
 
-        this.rankingListView.setAdapter(new RankingAdapter(getActivity().getApplicationContext()));
 
     }
 
@@ -131,15 +144,25 @@ public class RankingFragment extends Fragment{
             }
         });
 
-        tabsStrip.setVisibility(View.INVISIBLE);
+        tabsStrip.setVisibility(View.VISIBLE);
     }
 
     private void showTableViewAtKey(String key){
         List<Map<String,String>> currentListViewData = allRankedStates.get(key);
         ((RankingAdapter)this.rankingListView.getAdapter()).setData(currentListViewData);
+        this.rankingListView.invalidateViews();
         ((BaseAdapter)this.rankingListView.getAdapter()).notifyDataSetChanged();
+
+
+//        run = new Runnable() {
+//            public void run() {
+//                //reload content
+//            }
+//        };
+
         this.rankingListView.setVisibility(View.VISIBLE);
     }
+
 
 
     public void requestData(){

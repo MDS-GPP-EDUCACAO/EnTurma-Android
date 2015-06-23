@@ -24,9 +24,10 @@ public class RankingAdapter extends BaseAdapter {
     List<Map<String,String>> data = new ArrayList<Map<String, String>>();
     private static LayoutInflater inflater = null;
 
-    public RankingAdapter(Context context){
+    public RankingAdapter(Context context,List<Map<String,String>> data){
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.data = data;
     }
 
     public void setData(List<Map<String,String>> data){
@@ -68,5 +69,6 @@ public class RankingAdapter extends BaseAdapter {
 
         return cell;
     }
+
 
 }
