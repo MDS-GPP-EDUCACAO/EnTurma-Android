@@ -1,6 +1,7 @@
 package br.com.projetoenturma.enturma;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ public class RankingFragment extends Fragment{
     private ListView rankingListView;
     private Button requestButton;
     private Spinner year,grade;
+    ProgressDialog activityIdicator;
     private boolean exceptionFlag;
     private ViewPager viewPager;
     private PagerSlidingTabStrip tabsStrip;
@@ -81,6 +83,10 @@ public class RankingFragment extends Fragment{
         this.requestButton = (Button) getView().findViewById(R.id.ranking_request);
         this.grade = (Spinner) getView().findViewById(R.id.grade);
         this.year = (Spinner) getView().findViewById(R.id.year);
+
+        activityIdicator = new ProgressDialog(getActivity());
+        activityIdicator.setMessage("Gerando Ranking");
+        activityIdicator.setCancelable(false);
 
         setupActions();
 
@@ -163,11 +169,13 @@ public class RankingFragment extends Fragment{
 
 
         RESTFull rest = new RESTFull(params);
+        activityIdicator.show();
         rest.requestRanking(new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Toast.makeText(getActivity().getApplicationContext(), R.string.request_success, Toast.LENGTH_LONG).show();
+                activityIdicator.dismiss();
                 //plot graph with response object
                 try {
                     parseJSONToRaking(response);
@@ -178,6 +186,7 @@ public class RankingFragment extends Fragment{
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                activityIdicator.dismiss();
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 Toast.makeText(getActivity().getApplicationContext(), R.string.request_failure, Toast.LENGTH_LONG).show();
                 Log.d("omg android", statusCode + " " + throwable.getMessage());
