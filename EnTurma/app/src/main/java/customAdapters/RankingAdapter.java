@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import br.com.projetoenturma.enturma.R;
@@ -19,23 +21,27 @@ import br.com.projetoenturma.enturma.R;
 public class RankingAdapter extends BaseAdapter {
 
     Context context;
-    String[] data;
+    List<Map<String,String>> data = new ArrayList<Map<String, String>>();
     private static LayoutInflater inflater = null;
 
-    public RankingAdapter(Context context, String[] data){
+    public RankingAdapter(Context context){
         this.context = context;
-        this.data = data;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public void setData(List<Map<String,String>> data){
+        this.data = data;
     }
 
     @Override
     public int getCount() {
-        return this.data.length;
+        System.out.println("Size" + data.size());
+        return this.data.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return this.data[position];
+        return this.data.get(position);
     }
 
     @Override
@@ -52,11 +58,13 @@ public class RankingAdapter extends BaseAdapter {
         TextView rankingPosition = (TextView) cell.findViewById(R.id.ranking_position);
         TextView state = (TextView) cell.findViewById(R.id.state);
         TextView score = (TextView) cell.findViewById(R.id.score);
-        rankingPosition.setText(data[position]);
-        state.setText(data[position]);
-        score.setText(data[position]);
 
-        System.out.println(data[position]);
+        rankingPosition.setText(position+1 + "°");
+
+        Map<String,String> currentCellData = data.get(position);
+
+        state.setText(currentCellData.get("stateName"));
+        score.setText(currentCellData.get("stateScore"));
 
         return cell;
     }

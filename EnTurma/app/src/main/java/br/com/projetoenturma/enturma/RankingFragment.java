@@ -4,15 +4,19 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -38,6 +42,10 @@ public class RankingFragment extends Fragment{
     private ListView rankingListView;
     private Button requestButton;
     private Spinner year,grade;
+    private ViewPager viewPager;
+    private PagerSlidingTabStrip tabsStrip;
+    private Map<String, List<Map<String, String>>> allRankedStates;
+    private static final String[] KEYS = {"evasion","peformance","distortion","ideb"};
 
     public static RankingFragment newInstance(int sectionNumber) {
         RankingFragment fragment = new RankingFragment();
@@ -74,9 +82,10 @@ public class RankingFragment extends Fragment{
         this.year = (Spinner) getView().findViewById(R.id.year);
 
         setupActions();
+        setupTabPageViewer();
 
-        String[] data = {"Tst1","Tst2","Tst3","Tst4","Tst5"};
-        this.rankingListView.setAdapter(new RankingAdapter(getActivity().getApplicationContext(), data));
+        this.rankingListView.setAdapter(new RankingAdapter(getActivity().getApplicationContext()));
+
     }
 
     private void setupActions(){
@@ -87,6 +96,51 @@ public class RankingFragment extends Fragment{
             }
         });
     }
+
+    private void setupTabPageViewer(){
+
+        viewPager = (ViewPager) getView().findViewById(R.id.viewpager);
+        viewPager.setAdapter(new GraphsFragmentPagerAdapter(getActivity().getSupportFragmentManager()));
+        // Give the PagerSlidingTabStrip the ViewPager
+        tabsStrip = (PagerSlidingTabStrip) getView().findViewById(R.id.tabs);
+        // Attach the view pager to the tab strip
+        tabsStrip.setViewPager(viewPager);
+
+        tabsStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            // This method will be invoked when a new page becomes selected.
+            @Override
+            public void onPageSelected(int position) {
+
+                System.out.println("Pager" + position);
+                showTableViewAtKey(KEYS[position]);
+            }
+
+            // This method will be invoked when the current page is scrolled
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                // Code goes here
+
+            }
+
+            // Called when the scroll state changes:
+            // SCROLL_STATE_IDLE, SCROLL_STATE_DRAGGING, SCROLL_STATE_SETTLING
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                // Code goes here
+            }
+        });
+
+        tabsStrip.setVisibility(View.INVISIBLE);
+    }
+
+    private void showTableViewAtKey(String key){
+        List<Map<String,String>> currentListViewData = allRankedStates.get(key);
+        ((RankingAdapter)this.rankingListView.getAdapter()).setData(currentListViewData);
+        ((BaseAdapter)this.rankingListView.getAdapter()).notifyDataSetChanged();
+        this.rankingListView.setVisibility(View.VISIBLE);
+    }
+
 
     public void requestData(){
         Map<String,String> params = new HashMap();
@@ -132,13 +186,13 @@ public class RankingFragment extends Fragment{
             idebParsed = this.serializeDataToMap(ideb.getJSONArray("ideb"),"score");
         }
 
-        Map<String, List<Map<String, String>>> allRankedStates = new HashMap<>();
+        allRankedStates = new HashMap<>();
         allRankedStates.put("evasion", evasionParsed);
         allRankedStates.put("peformance", performanceParsed);
         allRankedStates.put("distortion", distortionParsed);
         allRankedStates.put("ideb", idebParsed);
 
-        System.out.println(allRankedStates);
+        showTableViewAtKey(KEYS[0]);
     }
 
     public List<Map<String, String>> serializeDataToMap(JSONArray data, String key) throws JSONException {
