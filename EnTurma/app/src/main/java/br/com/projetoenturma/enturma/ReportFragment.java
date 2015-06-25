@@ -1,16 +1,13 @@
 package br.com.projetoenturma.enturma;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -270,7 +267,7 @@ public class ReportFragment extends Fragment {
                         PlotterManager manager = new PlotterManager(graph, dataToPlot);
                         if (ideb.getJSONArray("ideb_years").length() > 1) {
 
-                            if (manager.plotSimpleLineGraphIDEB(ideb.getJSONArray("ideb_years"), Color.BLUE)) {
+                            if (manager.setupSimpleLineGraphIDEB(ideb.getJSONArray("ideb_years"), Color.BLUE)) {
                                 graph.setVisibility(View.VISIBLE);
                                 tabsStrip.setVisibility(View.VISIBLE);
                                 graphDescription.setVisibility(View.VISIBLE);
@@ -283,7 +280,7 @@ public class ReportFragment extends Fragment {
                                 focusOnView();
                             }
                         } else {
-                            if (manager.plotBarsGraph(ideb.getJSONArray("ideb_years"), Color.BLUE)) {
+                            if (manager.setupBarsGraph(ideb.getJSONArray("ideb_years"), Color.BLUE)) {
                                 graph.setVisibility(View.VISIBLE);
                                 tabsStrip.setVisibility(View.VISIBLE);
                                 graphDescription.setVisibility(View.VISIBLE);
@@ -357,7 +354,7 @@ public class ReportFragment extends Fragment {
                         standardView.setText(standard + "% ");
                         varianceView.setText(variance+ "% ");
 
-                        if (manager.plotSimpleLineGraph(initialXYear, Color.BLUE)) {
+                        if (manager.setupSimpleLineGraph(initialXYear, Color.BLUE)) {
                             graph.setVisibility(View.VISIBLE);
                             tabsStrip.setVisibility(View.VISIBLE);
                             graphDescription.setVisibility(View.VISIBLE);

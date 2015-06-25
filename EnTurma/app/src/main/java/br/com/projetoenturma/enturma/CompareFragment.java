@@ -281,7 +281,7 @@ public class CompareFragment extends Fragment {
 
                         PlotterManager manager = new PlotterManager( graph, dataToPlot);
 
-                        if (manager.plotPointGraph(ideb.getJSONArray("ideb_years"),color)) {
+                        if (manager.setupPointGraph(ideb.getJSONArray("ideb_years"), color)) {
                             graph.setVisibility(View.VISIBLE);
                             tabsStrip.setVisibility(View.VISIBLE);
                             graphDescription.setVisibility(View.VISIBLE);
@@ -361,7 +361,7 @@ public class CompareFragment extends Fragment {
                             varianceView2.setText(variance+ "% ");
                         }
 
-                        if (manager.plotSimpleLineGraph(initialXYear,color)) {
+                        if (manager.setupSimpleLineGraph(initialXYear, color)) {
                             graph.setVisibility(View.VISIBLE);
                             tabsStrip.setVisibility(View.VISIBLE);
                             graphDescription.setVisibility(View.VISIBLE);
