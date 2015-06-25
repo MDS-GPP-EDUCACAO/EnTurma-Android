@@ -171,7 +171,7 @@ public class ReportFragment extends Fragment {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                reportFormScrollView.scrollTo(0, viewPager.getBottom()+100);
+                reportFormScrollView.scrollTo(0, viewPager.getBottom()+500);
             }
         });
     }
@@ -238,7 +238,7 @@ public class ReportFragment extends Fragment {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 activityIdicator.dismiss();
-                Toast.makeText(getActivity().getApplicationContext(), "Erro: " + statusCode + " " + throwable.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getApplicationContext(), R.string.request_failure, Toast.LENGTH_LONG).show();
                 Log.d("omg android", statusCode + " " + throwable.getMessage());
             }
         });
@@ -369,7 +369,7 @@ public class ReportFragment extends Fragment {
                     }else{
                         graph.setVisibility(View.VISIBLE);
                         tabsStrip.setVisibility(View.VISIBLE);
-                        graphDescription.setText("Desculpe, mais não temo esse dado disponível.");
+                        graphDescription.setText("Desculpe, dado disponível.");
                         graphDescription.setVisibility(View.VISIBLE);
                         focusOnView();
                     }

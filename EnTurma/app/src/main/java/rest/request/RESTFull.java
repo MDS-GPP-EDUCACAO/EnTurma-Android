@@ -23,7 +23,7 @@ public class RESTFull {
 
     private String encodeParamsToUrlRequest(){
 
-        String urlParams = "?utf8=✓";
+        String urlParams = "?utf8=E2%9C%93";
         for (Map.Entry<String, String> currentParam : params.entrySet()) {
             String key = currentParam.getKey();
             String value = "";
@@ -39,20 +39,20 @@ public class RESTFull {
 
     public void requestReport(JsonHttpResponseHandler handler){
         String requestUrl = URL_BASE + "report/request_report.json" + encodeParamsToUrlRequest();
-
         AsyncHttpClient client = new AsyncHttpClient();
-
         client.get(requestUrl, handler);
+    }
+
+    public void requestRanking(JsonHttpResponseHandler handler){
+        String requestUrl = URL_BASE + "ranking/request_ranking.json" + encodeParamsToUrlRequest();
+        AsyncHttpClient client = new AsyncHttpClient();
+        System.out.println(requestUrl);
+        client.get(requestUrl,handler);
     }
 
     public  void requestCompareReport(JsonHttpResponseHandler handler){
         String requestUrl = URL_BASE + "compare_reports/request_comparation.json" + encodeParamsToUrlRequest();
-
         AsyncHttpClient client = new AsyncHttpClient();
-
-        System.out.println(requestUrl);
-
         client.get(requestUrl, handler);
     }
-
 }

@@ -116,8 +116,6 @@ public class CompareFragment extends Fragment {
 
         graph = (GraphView) getView().findViewById(R.id.graph);
         setupTabPageViewer();
-
-
     }
 
     private void setupTabPageViewer(){
@@ -189,7 +187,7 @@ public class CompareFragment extends Fragment {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                compareFormScrollView.scrollTo(0, viewPager.getBottom() + 100);
+                compareFormScrollView.scrollTo(0, viewPager.getBottom() + 600);
             }
         });
     }
